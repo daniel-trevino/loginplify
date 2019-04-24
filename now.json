@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "login-service",
+  "builds": [{ "src": "src/index.ts", "use": "@now/node@canary" }],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/index.ts"
+    }
+  ]
+}
