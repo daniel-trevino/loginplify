@@ -1,9 +1,8 @@
-# Graphql serverless typescript
+# Login service
 
 ## 🧐 What is this?
 
-Starting point of a backend server both rest and graphql endpoints.
-Deploy serverless using now
+Handle all the logins for multiple applications with a serverless graphql backend.
 
 ## 🚀 Quick start development
 
