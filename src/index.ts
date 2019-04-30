@@ -5,29 +5,31 @@ import * as express from 'express'
 import * as mongoose from 'mongoose'
 
 // Save mongose promise
+// tslint:disable-next-line:no-var-requires
 require('mongoose').Promise = global.Promise
 
 const MONGO_DATABASE_URL = process.env.MONGO_DATABASE_URL || ''
 
 mongoose.connect(MONGO_DATABASE_URL, { useNewUrlParser: true })
 mongoose.connection.once('open', () =>
+  // tslint:disable-next-line:no-console
   console.log(`Connected to mongo at ${MONGO_DATABASE_URL}`)
 )
 
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  userName: String,
-  email: String
+  email: String,
+  userName: String
 })
 
 const User = mongoose.model('user', userSchema)
 
 const typeDefs = gql`
   type User {
+    email: String
     id: ID!
     userName: String
-    email: String
   }
   type Query {
     getUsers: [User]
@@ -39,26 +41,26 @@ const typeDefs = gql`
 
 // Provide resolver functions for your schema fields
 const resolvers = {
-  Query: {
-    getUsers: async () => await User.find({}).exec()
-  },
   Mutation: {
     addUser: async (_: any, args: any) => {
       try {
-        let response = await User.create(args)
+        const response = await User.create(args)
         return response
       } catch (e) {
         return e.message
       }
     }
+  },
+  Query: {
+    getUsers: async () => await User.find({}).exec()
   }
 }
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
   introspection: true,
-  playground: true
+  playground: true,
+  resolvers,
+  typeDefs
 })
 
 const { PORT = 3000 } = process.env
@@ -80,8 +82,8 @@ app.post('/data', (req, res) => {
 
 server.applyMiddleware({ app })
 
-// tslint:disable-next-line:no-console
 app.listen(PORT, () =>
+  // tslint:disable-next-line:no-console
   console.log(`Graphql server is running on http://localhost:${PORT}/graphql`)
 )
 
