@@ -23,3 +23,13 @@ Handle all the logins for multiple applications with a serverless graphql backen
     ```sh
     npm run deploy
     ```
+
+## Deployment with CircleCI
+
+Before deploying this to circle CI you need to first create the `@mongo-database-url` secret environmental variable on now locally from your computer.
+
+The command for that is
+
+```
+now secret add mongo-database-url mongodb+srv://test:test@test.mongodb.net/
+```
