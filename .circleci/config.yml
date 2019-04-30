@@ -61,7 +61,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run deploy!
-      - run: now --token=$NOW_TOKEN -A ./now.json && now --token=$NOW_TOKEN --target production && now alias --token=$NOW_TOKEN && now --token=$NOW_TOKEN -e MONGO_DATABASE_URL=@mongo-database-url
+      - run: now --token=$NOW_TOKEN -A ./now.json && now --token=$NOW_TOKEN -e MONGO_DATABASE_URL=@mongo-database-url
 
 workflows:
   version: 2
