@@ -2,6 +2,7 @@
   "version": 2,
   "name": "login-service",
   "alias": "loginservice.danieltrevino.se",
+  "regions": ["arn1"],
   "builds": [{ "src": "src/index.ts", "use": "@now/node@canary" }],
   "routes": [
     {
