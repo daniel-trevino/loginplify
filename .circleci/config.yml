@@ -61,7 +61,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run deploy!
-      - run: now --token=$NOW_TOKEN -A ./now.json && now secret add mongo-database-url $MONGO_DATABASE_URL && now alias --token=$NOW_TOKEN -A ./now.json
+      - run: now --token=$NOW_TOKEN secret add mongo-database-url $MONGO_DATABASE_URL && now --token=$NOW_TOKEN -A ./now.json && now alias --token=$NOW_TOKEN -A ./now.json
 
 workflows:
   version: 2
