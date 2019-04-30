@@ -1,17 +1,56 @@
+import './lib/env'
 import { ApolloServer, gql } from 'apollo-server-express'
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
+import * as mongoose from 'mongoose'
+
+// Save mongose promise
+require('mongoose').Promise = global.Promise
+
+const MONGO_DATABASE_URL = process.env.MONGO_DATABASE_URL || ''
+
+mongoose.connect(MONGO_DATABASE_URL, { useNewUrlParser: true })
+mongoose.connection.once('open', () =>
+  console.log(`Connected to mongo at ${MONGO_DATABASE_URL}`)
+)
+
+const Schema = mongoose.Schema
+
+const userSchema = new Schema({
+  userName: String,
+  email: String
+})
+
+const User = mongoose.model('user', userSchema)
 
 const typeDefs = gql`
+  type User {
+    id: ID!
+    userName: String
+    email: String
+  }
   type Query {
-    hello: String
+    getUsers: [User]
+  }
+  type Mutation {
+    addUser(userName: String!, email: String!): User
   }
 `
 
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => 'Hello world (ts)!'
+    getUsers: async () => await User.find({}).exec()
+  },
+  Mutation: {
+    addUser: async (_: any, args: any) => {
+      try {
+        let response = await User.create(args)
+        return response
+      } catch (e) {
+        return e.message
+      }
+    }
   }
 }
 
@@ -42,6 +81,8 @@ app.post('/data', (req, res) => {
 server.applyMiddleware({ app })
 
 // tslint:disable-next-line:no-console
-app.listen(PORT, () => console.log(`__RUNNING__ @ ${PORT}`))
+app.listen(PORT, () =>
+  console.log(`Graphql server is running on http://localhost:${PORT}/graphql`)
+)
 
 export default app

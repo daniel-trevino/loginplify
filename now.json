@@ -1,11 +1,15 @@
 {
   "version": 2,
   "name": "login-service",
+  "alias": "loginservice.danieltrevino.se",
   "builds": [{ "src": "src/index.ts", "use": "@now/node@canary" }],
   "routes": [
     {
       "src": "/(.*)",
       "dest": "src/index.ts"
     }
-  ]
+  ],
+  "env": {
+    "DATABASE_URL": "@mongo-database-url"
+  }
 }
