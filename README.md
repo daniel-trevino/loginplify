@@ -32,4 +32,5 @@ The command for that is
 
 ```
 now secret add mongo-database-url mongodb+srv://test:test@test.mongodb.net/
+now secret add app-secret theSecretString
 ```
