@@ -8,14 +8,14 @@ import { PORT } from './utils/constants'
 import models from './models/models'
 
 const server = new ApolloServer({
-  introspection: true,
-  playground: true,
-  resolvers,
-  typeDefs,
   context: request => ({
     ...request,
     models
-  })
+  }),
+  introspection: true,
+  playground: true,
+  resolvers,
+  typeDefs
 })
 
 const app = express()

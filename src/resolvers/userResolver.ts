@@ -6,29 +6,8 @@ import { APP_SECRET } from '../utils/constants'
 // Provide resolver functions for your schema fields
 const userResolver = {
   Mutation: {
-    signup: async (_parent: any, args: any, ctx: any) => {
-      // Lowercase their email
-      args.email = args.email.toLowerCase()
-      // Hash their password
-      const password = await bcrypt.hash(args.password, 10)
-      // Create the user in the DB
-      const user = await ctx.models.User.create({
-        ...args,
-        password,
-        createdAt: `${Date.now()}`
-      })
-
-      // Create JWT token
-      const token = jwt.sign({ userID: user._id }, APP_SECRET)
-
-      // 4. Return the user
-      return {
-        token,
-        user
-      }
-    },
     login: async (
-      _parent: any,
+      _: any,
       { email, password }: { email: string; password: string },
       ctx: any
     ) => {
@@ -46,6 +25,27 @@ const userResolver = {
       }
 
       // 3. Generate the JWT Token
+      const token = jwt.sign({ userID: user._id }, APP_SECRET)
+
+      // 4. Return the user
+      return {
+        token,
+        user
+      }
+    },
+    signUp: async (_: any, args: any, ctx: any) => {
+      // Lowercase their email
+      args.email = args.email.toLowerCase()
+      // Hash their password
+      const password = await bcrypt.hash(args.password, 10)
+      // Create the user in the DB
+      const user = await ctx.models.User.create({
+        ...args,
+        createdAt: `${Date.now()}`,
+        password
+      })
+
+      // Create JWT token
       const token = jwt.sign({ userID: user._id }, APP_SECRET)
 
       // 4. Return the user
