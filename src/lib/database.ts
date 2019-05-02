@@ -1,10 +1,9 @@
 import * as mongoose from 'mongoose'
+import { MONGO_DATABASE_URL } from '../utils/constants'
 
 // Save mongose promise
 // tslint:disable-next-line:no-var-requires
 require('mongoose').Promise = global.Promise
-
-const MONGO_DATABASE_URL = process.env.MONGO_DATABASE_URL || ''
 
 mongoose.connect(MONGO_DATABASE_URL, { useNewUrlParser: true })
 

@@ -4,15 +4,19 @@ import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import typeDefs from './schema/schema'
 import resolvers from './resolvers/resolvers'
+import { PORT } from './utils/constants'
+import models from './models/models'
 
 const server = new ApolloServer({
   introspection: true,
   playground: true,
   resolvers,
-  typeDefs
+  typeDefs,
+  context: request => ({
+    ...request,
+    models
+  })
 })
-
-const { PORT = 3000 } = process.env
 
 const app = express()
 
