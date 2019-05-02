@@ -15,6 +15,7 @@ export default gql`
   }
   type Query {
     getUsers: [User]
+    me: User!
   }
   type Mutation {
     signUp(email: String!, password: String!, name: String!): AuthPayload!

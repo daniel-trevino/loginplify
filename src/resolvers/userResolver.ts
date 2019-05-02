@@ -2,6 +2,7 @@ import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import User from '../models/userModel'
 import { APP_SECRET } from '../utils/constants'
+import { getUserID } from '../utils/userUtils'
 
 // Provide resolver functions for your schema fields
 const userResolver = {
@@ -56,7 +57,12 @@ const userResolver = {
     }
   },
   Query: {
-    getUsers: async () => await User.find({}).exec()
+    getUsers: async () => await User.find({}).exec(),
+    me: async (_: any, _args: any, ctx: any) => {
+      const _id = getUserID(ctx)
+
+      return ctx.models.User.findOne({ _id })
+    }
   }
 }
 
