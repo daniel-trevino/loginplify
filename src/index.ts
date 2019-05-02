@@ -3,24 +3,7 @@ import { ApolloServer } from 'apollo-server-express'
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import typeDefs from './schema/schema'
-import User from './models/userModel'
-
-// Provide resolver functions for your schema fields
-const resolvers = {
-  Mutation: {
-    addUser: async (_: any, args: any) => {
-      try {
-        const response = await User.create(args)
-        return response
-      } catch (e) {
-        return e.message
-      }
-    }
-  },
-  Query: {
-    getUsers: async () => await User.find({}).exec()
-  }
-}
+import resolvers from './resolvers/resolvers'
 
 const server = new ApolloServer({
   introspection: true,
