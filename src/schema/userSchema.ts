@@ -10,7 +10,6 @@ export default gql`
     email: String
     id: ID!
     name: String
-    password: String!
     resetToken: String
     resetTokenExpiry: Float
   }
