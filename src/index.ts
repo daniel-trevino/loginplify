@@ -1,31 +1,9 @@
 import './lib/env'
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
-import mongoose from './lib/database'
-
-const Schema = mongoose.Schema
-
-const userSchema = new Schema({
-  email: String,
-  userName: String
-})
-
-const User = mongoose.model('user', userSchema)
-
-const typeDefs = gql`
-  type User {
-    email: String
-    id: ID!
-    userName: String
-  }
-  type Query {
-    getUsers: [User]
-  }
-  type Mutation {
-    addUser(userName: String!, email: String!): User
-  }
-`
+import typeDefs from './schema/schema'
+import User from './models/userModel'
 
 // Provide resolver functions for your schema fields
 const resolvers = {
