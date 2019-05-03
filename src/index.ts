@@ -39,6 +39,8 @@ createNewSchema().then(schema => {
   })
 
   server.applyMiddleware({ app })
+
+  console.log(`Graphql server is running on http://localhost:${PORT}/graphql`)
 })
 
 app.use(bodyParser.json())
@@ -56,7 +58,7 @@ app.post('/data', (req, res) => {
 
 app.listen(PORT, () =>
   // tslint:disable-next-line:no-console
-  console.log(`Graphql server is running on http://localhost:${PORT}/graphql`)
+  console.log(`Express server is running on http://localhost:${PORT}`)
 )
 
 export default app
