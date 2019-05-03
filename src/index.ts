@@ -1,24 +1,45 @@
 import './lib/env'
-import { ApolloServer } from 'apollo-server-express'
+import {
+  ApolloServer,
+  mergeSchemas,
+  makeExecutableSchema
+} from 'apollo-server-express'
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import typeDefs from './schema/schema'
 import resolvers from './resolvers/resolvers'
 import { PORT } from './utils/constants'
 import models from './models/models'
+import { createRemoteExecutableSchemas } from './utils/schemaUtils'
 
-const server = new ApolloServer({
-  context: request => ({
-    ...request,
-    models
-  }),
-  introspection: true,
-  playground: true,
-  resolvers,
-  typeDefs
+const localSchemas = makeExecutableSchema({
+  typeDefs,
+  resolvers
 })
 
+const createNewSchema = async () => {
+  const schemas = await createRemoteExecutableSchemas()
+  return mergeSchemas({
+    schemas,
+    ...localSchemas
+  })
+}
+
 const app = express()
+
+createNewSchema().then(schema => {
+  const server = new ApolloServer({
+    context: request => ({
+      ...request,
+      models
+    }),
+    introspection: true,
+    playground: true,
+    schema
+  })
+
+  server.applyMiddleware({ app })
+})
 
 app.use(bodyParser.json())
 
@@ -32,8 +53,6 @@ app.post('/data', (req, res) => {
     status: 'OK (ts)'
   })
 })
-
-server.applyMiddleware({ app })
 
 app.listen(PORT, () =>
   // tslint:disable-next-line:no-console
