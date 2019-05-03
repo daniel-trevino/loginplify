@@ -4,16 +4,16 @@ import fetch from 'node-fetch'
 import { GRAPHQL_APIS } from './constants'
 
 export const createRemoteExecutableSchemas = async () => {
-  let schemas = []
+  const schemas = []
   for (const api of GRAPHQL_APIS) {
     const link = new HttpLink({
-      uri: api.uri,
-      fetch
+      fetch,
+      uri: api.uri
     })
     const remoteSchema = await introspectSchema(link)
     const remoteExecutableSchema = makeRemoteExecutableSchema({
-      schema: remoteSchema,
-      link
+      link,
+      schema: remoteSchema
     })
     schemas.push(remoteExecutableSchema)
   }

@@ -13,8 +13,8 @@ import models from './models/models'
 import { createRemoteExecutableSchemas } from './utils/schemaUtils'
 
 const localSchemas = makeExecutableSchema({
-  typeDefs,
-  resolvers
+  resolvers,
+  typeDefs
 })
 
 const createNewSchema = async () => {
