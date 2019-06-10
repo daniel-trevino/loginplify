@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: $CIRCLE_WORKING_DIRECTORY/client
+    working_directory: ~/repo
 
     steps:
       - checkout
@@ -26,7 +26,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: yarn install
+      - run: cd client && yarn install
 
       - save_cache:
           paths:
@@ -34,7 +34,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test
+      - run: cd client && yarn test
   build-server:
     docker:
       # specify the version you desire here
@@ -45,7 +45,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: $CIRCLE_WORKING_DIRECTORY/server
+    working_directory: ~/repo
 
     steps:
       - checkout
@@ -57,7 +57,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: yarn install
+      - run: cd server && yarn install
 
       - save_cache:
           paths:
@@ -65,7 +65,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test
+      - run: cd server && yarn test
   deploy:
     docker:
       # specify the version you desire here
