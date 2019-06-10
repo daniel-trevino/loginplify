@@ -3,14 +3,24 @@
   "name": "login-service",
   "alias": "loginservice.danieltrevino.se",
   "regions": ["arn1"],
-  "builds": [{ "src": "src/index.ts", "use": "@now/node@canary" }],
+  "builds": [
+    { "src": "server/index.ts", "use": "@now/node@canary" },
+    { "src": "client/package.json", "use": "@now/next" }
+  ],
   "routes": [
     {
+      "src": "/graphql",
+      "dest": "server/index.ts"
+    },
+    {
       "src": "/(.*)",
-      "dest": "src/index.ts"
+      "dest": "client/$1",
+      "headers": {
+        "x-request-path": "$1"
+      }
     }
   ],
   "env": {
-    "DATABASE_URL": "@mongo-database-url"
+    "DATABASE_URL": "@login-service-mongodb"
   }
 }
