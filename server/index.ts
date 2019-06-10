@@ -22,7 +22,7 @@ const app = express()
 
 app.use(bodyParser.json())
 
-app.get('/', (_: any, res: any) => {
+app.get('/status', (_: any, res: any) => {
   res.json({ data: `${Date.now()}` })
 })
 

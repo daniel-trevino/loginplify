@@ -2,42 +2,17 @@
   "name": "login-service",
   "version": "1.0.0",
   "description": "",
+  "main": "index.ts",
+  "private": true,
   "scripts": {
-    "dev": "nodemon -e ts,graphql --ignore tmp/**/* --exec ts-node src/index.ts",
-    "run": "node dist",
-    "build": "tsc -p .",
-    "deploy": "npm run clean && npm run build && now",
-    "clean": "rm -rfv dist",
-    "fmt": "prettier --parser typescript --write \"src/**/*.ts\"",
-    "lint": "tslint -p . -t stylish",
-    "test": "npm run lint"
+    "now:deploy": "now -e MONGO_DATABASE_URL=@login-service-mongodb -e APP_SECRET=@app-secret"
   },
+  "workspaces": [
+    "server",
+    "client"
+  ],
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/body-parser": "^1.17.0",
-    "@types/dotenv": "^6.1.1",
-    "@types/express": "^4.16.0",
-    "@types/graphql": "^14.0.3",
-    "@types/jsonwebtoken": "^8.3.2",
-    "@types/mongoose": "^5.3.27",
-    "@types/node": "^10.12.12",
-    "nodemon": "^1.18.8",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.17.0"
-  },
-  "dependencies": {
-    "apollo-server-express": "^2.4.2",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
-    "dotenv": "^7.0.0",
-    "express": "^4.16.4",
-    "graphql": "^14.0.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "5.4.20",
-    "typescript": "^3.3.3"
-  }
+  "author": "Daniel Treviño",
+  "dependencies": {},
+  "devDependencies": {}
 }
