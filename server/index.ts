@@ -22,8 +22,8 @@ const server = new ApolloServer({
 const app = express()
 // Render react from SSR - Account verified view
 app.set('views', __dirname + '/views')
-app.set('view engine', 'tsx')
-app.engine('tsx', createEngine())
+app.set('view engine', 'jsx')
+app.engine('jsx', createEngine())
 
 app.use(bodyParser.json())
 
