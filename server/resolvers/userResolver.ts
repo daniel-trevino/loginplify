@@ -1,8 +1,11 @@
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import User from '../models/userModel'
+import mongoose from '../lib/database'
 import { APP_SECRET } from '../utils/constants'
-import { getUserID } from '../utils/userUtils'
+import { getUserID, isAlreadyRegistered } from '../utils/userUtils'
+import { getDefaultPermissions } from '../utils/dbUtils'
+import { sendConfirmationEmail } from '../utils/authUtils'
 
 // Provide resolver functions for your schema fields
 const userResolver = {
@@ -36,18 +39,28 @@ const userResolver = {
     },
     signUp: async (_: any, args: any, ctx: any) => {
       // Lowercase their email
-      args.email = args.email.toLowerCase()
+      const email = args.email.toLowerCase()
+      args.email = email
+      // Checks if user has been registered already
+      const defaultPermission = await getDefaultPermissions(ctx)
+      await isAlreadyRegistered(ctx, email)
       // Hash their password
       const password = await bcrypt.hash(args.password, 10)
+
       // Create the user in the DB
       const user = await ctx.models.User.create({
         ...args,
         createdAt: `${Date.now()}`,
-        password
+        password,
+        permissions: [defaultPermission._id]
       })
 
       // Create JWT token
       const token = jwt.sign({ userID: user._id }, APP_SECRET)
+
+      // Send confirmation email, not waiting for it since it might delay the sign up process.
+      const host = ctx.req.get('host')
+      sendConfirmationEmail(host, user._id, email)
 
       // 4. Return the user
       return {
@@ -61,7 +74,21 @@ const userResolver = {
     me: async (_: any, _args: any, ctx: any) => {
       const _id = getUserID(ctx)
 
-      return ctx.models.User.findOne({ _id })
+      const ObjectId = mongoose.Types.ObjectId
+
+      const [user] = await ctx.models.User.aggregate([
+        { $match: { _id: new ObjectId(_id) } },
+        {
+          $lookup: {
+            from: 'permissions', // collection name in db
+            localField: 'permissions', // Field in the user schema
+            foreignField: '_id', // Field in the 'permission' schema
+            as: 'permissions' // Alias
+          }
+        }
+      ])
+
+      return user
     }
   }
 }

@@ -19,11 +19,19 @@ const server = new ApolloServer({
 })
 
 const app = express()
+// Render react from SSR - Account verified view
+app.set('views', __dirname + '/views')
+app.set('view engine', 'tsx')
+app.engine('tsx', require('express-react-views').createEngine())
 
 app.use(bodyParser.json())
 
 app.get('/status', (_: any, res: any) => {
   res.json({ data: `${Date.now()}` })
+})
+
+app.get('/verify/:id', (_req: any, res: any) => {
+  res.render('AccountVerified', { msg: 'Verified!' })
 })
 
 app.post('/data', (req, res) => {

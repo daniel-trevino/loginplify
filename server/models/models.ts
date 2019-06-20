@@ -1,5 +1,6 @@
 import User from './userModel'
+import Permission from './permissionModel'
 
-const models = { User }
+const models = { User, Permission }
 
 export default models

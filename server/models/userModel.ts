@@ -3,12 +3,23 @@ import mongoose from '../lib/database'
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  createdAt: String,
-  email: String,
   name: String,
+  email: String,
   password: String,
+  createdAt: String,
   resetToken: String,
-  resetTokenExpiry: Number
+  resetTokenExpiry: Number,
+  verified: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  permissions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'permission'
+    }
+  ]
 })
 
 const User = mongoose.model('user', userSchema)
