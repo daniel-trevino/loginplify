@@ -80,10 +80,10 @@ const userResolver = {
         { $match: { _id: new ObjectId(_id) } },
         {
           $lookup: {
-            from: 'permissions', // collection name in db
-            localField: 'permissions', // Field in the user schema
+            as: 'permissions', // Alias
             foreignField: '_id', // Field in the 'permission' schema
-            as: 'permissions' // Alias
+            from: 'permissions', // collection name in db
+            localField: 'permissions' // Field in the user schema
           }
         }
       ])

@@ -7,29 +7,30 @@ export async function sendConfirmationEmail(
   email: string
 ) {
   const transporter = nodemailer.createTransport({
+    auth: {
+      pass: EMAIL_PASSWORD,
+      user: EMAIL_USER
+    },
     host: EMAIL_HOST,
     port: 465,
-    secure: true,
-    auth: {
-      user: EMAIL_USER,
-      pass: EMAIL_PASSWORD
-    }
+    secure: true
   })
 
   const LINK = `http://${host}/verify/${id}`
 
   const mailOptions = {
     from: 'no-reply@danieltrevino.se',
-    to: email,
     subject: `Login service verification`,
     text: `
       Visit this link to verify your account: ${LINK}
-    `
+    `,
+    to: email
   }
 
   try {
     await transporter.sendMail(mailOptions)
   } catch (e) {
+    // tslint:disable-next-line:no-console
     console.log('Error', e)
   }
 

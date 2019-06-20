@@ -18,7 +18,7 @@ export function getUserID(ctx: any) {
 
 export async function isAlreadyRegistered(ctx: any, email: string) {
   try {
-    const user = await ctx.models.User.findOne({ email: email })
+    const user = await ctx.models.User.findOne({ email })
     if (user) {
       throw new AuthenticationError('User already registered')
     }

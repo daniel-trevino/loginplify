@@ -6,6 +6,7 @@ import typeDefs from './schema/schema'
 import resolvers from './resolvers/resolvers'
 import { PORT } from './utils/constants'
 import models from './models/models'
+import { createEngine } from 'express-react-views'
 
 const server = new ApolloServer({
   context: request => ({
@@ -22,7 +23,7 @@ const app = express()
 // Render react from SSR - Account verified view
 app.set('views', __dirname + '/views')
 app.set('view engine', 'tsx')
-app.engine('tsx', require('express-react-views').createEngine())
+app.engine('tsx', createEngine())
 
 app.use(bodyParser.json())
 
