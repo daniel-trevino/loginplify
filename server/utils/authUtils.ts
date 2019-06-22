@@ -28,7 +28,9 @@ export async function sendConfirmationEmail(
   }
 
   try {
-    await transporter.sendMail(mailOptions)
+    const response = await transporter.sendMail(mailOptions)
+    // tslint:disable-next-line:no-console
+    console.log('EMAIL RESPONSE', response)
   } catch (e) {
     // tslint:disable-next-line:no-console
     console.log('Error', e)
