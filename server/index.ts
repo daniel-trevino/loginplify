@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import typeDefs from './schema/schema'
 import resolvers from './resolvers/resolvers'
-import { PORT } from './utils/constants'
+import { PORT, EMAIL_HOST, EMAIL_USER, EMAIL_PASSWORD } from './utils/constants'
 import models from './models/models'
 
 const server = new ApolloServer({
@@ -37,7 +37,9 @@ server.applyMiddleware({ app })
 
 app.listen(PORT, () =>
   // tslint:disable-next-line:no-console
-  console.log(`Graphql server is running on http://localhost:${PORT}/graphql`)
+  console.log(
+    `Graphql server is running on http://localhost:${PORT}/graphql / ENVS: ${EMAIL_HOST} / ${EMAIL_USER} / ${EMAIL_PASSWORD}`
+  )
 )
 
 export default app
