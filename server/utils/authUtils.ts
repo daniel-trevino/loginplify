@@ -2,6 +2,7 @@ import * as nodemailer from 'nodemailer'
 import { randomBytes } from 'crypto'
 import { promisify } from 'util'
 import { EMAIL_HOST, EMAIL_USER, EMAIL_PASSWORD } from './constants'
+import { AuthenticationError } from 'apollo-server-core'
 
 export async function sendConfirmationEmail(
   host: string,
@@ -34,8 +35,7 @@ export async function sendConfirmationEmail(
     // tslint:disable-next-line:no-console
     console.log('SENDING EMAIL', response)
   } catch (e) {
-    // tslint:disable-next-line:no-console
-    console.log('Error', e)
+    throw new Error(e)
   }
 
   return true
@@ -52,4 +52,17 @@ export const createRandomToken = async () => {
   const randomTokenExpiry = Date.now() + 3600000 // 1 hour from now
 
   return { randomToken, randomTokenExpiry }
+}
+
+export async function isAlreadyRegistered(ctx: any, email: string) {
+  try {
+    const user = await ctx.models.User.findOne({ email })
+    if (user) {
+      throw new AuthenticationError('User already registered')
+    }
+
+    return true
+  } catch (e) {
+    throw new Error(e)
+  }
 }

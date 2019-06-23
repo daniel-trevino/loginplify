@@ -1,7 +1,15 @@
-import userResolvers from './userResolver'
+import { userQueries, userMutations } from './userResolver'
+import { authQueries, authMutations } from './authResolver'
 
 const mergeResolvers = {
-  ...userResolvers
+  Mutation: {
+    ...userMutations,
+    ...authMutations
+  },
+  Query: {
+    ...userQueries,
+    ...authQueries
+  }
 }
 
 export default mergeResolvers

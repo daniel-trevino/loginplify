@@ -15,16 +15,3 @@ export function getUserID(ctx: any) {
 
   throw new AuthenticationError('Your session expired. Sign in again.')
 }
-
-export async function isAlreadyRegistered(ctx: any, email: string) {
-  try {
-    const user = await ctx.models.User.findOne({ email })
-    if (user) {
-      throw new AuthenticationError('User already registered')
-    }
-
-    return true
-  } catch (e) {
-    throw new Error(e)
-  }
-}
