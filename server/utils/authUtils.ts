@@ -1,10 +1,15 @@
 import * as nodemailer from 'nodemailer'
 import { randomBytes } from 'crypto'
 import { promisify } from 'util'
-import { EMAIL_HOST, EMAIL_USER, EMAIL_PASSWORD } from './constants'
+import {
+  EMAIL_HOST,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
+  EMAIL_SENDER
+} from './constants'
 import { AuthenticationError } from 'apollo-server-core'
 
-export async function sendConfirmationEmail(
+export function sendConfirmationEmail(
   host: string,
   token: string,
   email: string
@@ -22,7 +27,7 @@ export async function sendConfirmationEmail(
   const LINK = `http://${host}/verify/${token}`
 
   const mailOptions = {
-    from: 'hello@danieltrevino.se',
+    from: EMAIL_SENDER,
     subject: `Login service verification`,
     text: `
       Visit this link to verify your account: ${LINK}
@@ -31,9 +36,9 @@ export async function sendConfirmationEmail(
   }
 
   try {
-    const response = await transporter.sendMail(mailOptions)
+    transporter.sendMail(mailOptions)
     // tslint:disable-next-line:no-console
-    console.log('SENDING EMAIL', response)
+    console.log('SENDING EMAIL')
   } catch (e) {
     throw new Error(e)
   }
