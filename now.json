@@ -25,7 +25,7 @@
     }
   ],
   "env": {
-    "DATABASE_URL": "@login-service-mongodb",
+    "MONGO_DATABASE_URL": "@login-service-mongodb",
     "APP_SECRET": "@app-secret",
     "EMAIL_HOST": "@login-service-email-host",
     "EMAIL_USER": "@login-service-email-user",

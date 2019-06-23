@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
   type Permission {
-    id: ID!
+    _id: ID!
     enum: String!
   }
   type AuthPayload {
@@ -10,7 +10,7 @@ export default gql`
     user: User!
   }
   type User {
-    id: ID!
+    _id: ID!
     name: String
     email: String!
     password: String!
@@ -18,6 +18,8 @@ export default gql`
     verified: Boolean
     resetToken: String
     resetTokenExpiry: Float
+    verifyToken: String
+    verifyTokenExpiry: Float
     permissions: [Permission]
   }
   type Query {
@@ -27,5 +29,7 @@ export default gql`
   type Mutation {
     signUp(email: String!, password: String!, name: String!): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
+    verify(token: String!): String!
+    requestVerify(email: String!): String!
   }
 `

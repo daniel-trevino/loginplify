@@ -1,9 +1,11 @@
 import * as nodemailer from 'nodemailer'
+import { randomBytes } from 'crypto'
+import { promisify } from 'util'
 import { EMAIL_HOST, EMAIL_USER, EMAIL_PASSWORD } from './constants'
 
 export async function sendConfirmationEmail(
   host: string,
-  id: string,
+  token: string,
   email: string
 ) {
   const transporter = nodemailer.createTransport({
@@ -16,10 +18,10 @@ export async function sendConfirmationEmail(
     secure: true
   })
 
-  const LINK = `http://${host}/verify/${id}`
+  const LINK = `http://${host}/verify/${token}`
 
   const mailOptions = {
-    from: 'no-reply@danieltrevino.se',
+    from: 'hello@danieltrevino.se',
     subject: `Login service verification`,
     text: `
       Visit this link to verify your account: ${LINK}
@@ -30,11 +32,24 @@ export async function sendConfirmationEmail(
   try {
     const response = await transporter.sendMail(mailOptions)
     // tslint:disable-next-line:no-console
-    console.log('EMAIL RESPONSE', response)
+    console.log('SENDING EMAIL', response)
   } catch (e) {
     // tslint:disable-next-line:no-console
     console.log('Error', e)
   }
 
   return true
+}
+
+export const isStillValidTokenExpiry = (verifyTokenExpiry: any) => {
+  const oneHourAgo = Date.now() - 3600000
+  return verifyTokenExpiry > oneHourAgo
+}
+
+export const createRandomToken = async () => {
+  const randomBytesPromise = promisify(randomBytes)
+  const randomToken = (await randomBytesPromise(20)).toString('hex')
+  const randomTokenExpiry = Date.now() + 3600000 // 1 hour from now
+
+  return { randomToken, randomTokenExpiry }
 }

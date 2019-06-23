@@ -15,12 +15,13 @@ const userSchema = new Schema({
   ],
   resetToken: String,
   resetTokenExpiry: Number,
-
   verified: {
     default: false,
     required: true,
     type: Boolean
-  }
+  },
+  verifyToken: String,
+  verifyTokenExpiry: Number
 })
 
 const User = mongoose.model('user', userSchema)
