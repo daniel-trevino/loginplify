@@ -41,6 +41,47 @@ const userResolver = {
         user
       }
     },
+    requestVerify: async (_: any, args: any, ctx: any) => {
+      const email = args.email.toLowerCase()
+      // Get the user
+      const user = await ctx.models.User.findOne({
+        email
+      })
+      // Check if the user exists
+      if (!user) {
+        throw new Error('This user is not registered')
+      }
+      // Check if the user has been verified already
+      if (user.verified) {
+        throw new Error('This user is already verified')
+      }
+
+      // Create a verify token
+      const generatedToken = await createRandomToken()
+
+      // Remove the verify token and verify the user
+      const verifiedUser = await ctx.models.User.updateOne(
+        {
+          _id: user._id
+        },
+        {
+          ...user._doc,
+          verifyToken: generatedToken.randomToken,
+          verifyTokenExpiry: generatedToken.randomTokenExpiry
+        },
+        { upsert: true }
+      )
+
+      if (!verifiedUser) {
+        throw new Error('Something went really wrong')
+      }
+
+      // Send verification email
+      const host = ctx.req.get('host')
+      sendConfirmationEmail(host, generatedToken.randomToken, email)
+
+      return 'Sent verification email'
+    },
     signUp: async (_: any, args: any, ctx: any) => {
       // Lowercase their email
       const email = args.email.toLowerCase()
@@ -99,9 +140,9 @@ const userResolver = {
         },
         {
           ...user._doc,
+          verified: true,
           verifyToken: null,
-          verifyTokenExpiry: null,
-          verified: true
+          verifyTokenExpiry: null
         },
         { upsert: true }
       )
@@ -111,47 +152,6 @@ const userResolver = {
       }
 
       return 'Verified'
-    },
-    requestVerify: async (_: any, args: any, ctx: any) => {
-      const email = args.email.toLowerCase()
-      // Get the user
-      const user = await ctx.models.User.findOne({
-        email
-      })
-      // Check if the user exists
-      if (!user) {
-        throw new Error('This user is not registered')
-      }
-      // Check if the user has been verified already
-      if (user.verified) {
-        throw new Error('This user is already verified')
-      }
-
-      // Create a verify token
-      const generatedToken = await createRandomToken()
-
-      // Remove the verify token and verify the user
-      const verifiedUser = await ctx.models.User.updateOne(
-        {
-          _id: user._id
-        },
-        {
-          ...user._doc,
-          verifyToken: generatedToken.randomToken,
-          verifyTokenExpiry: generatedToken.randomTokenExpiry
-        },
-        { upsert: true }
-      )
-
-      if (!verifiedUser) {
-        throw new Error('Something went really wrong')
-      }
-
-      // Send verification email
-      const host = ctx.req.get('host')
-      sendConfirmationEmail(host, generatedToken.randomToken, email)
-
-      return 'Sent verification email'
     }
   },
 
