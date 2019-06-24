@@ -8,7 +8,7 @@ function createClient({ headers }: any) {
   const ENDPOINT =
     process.env.NODE_ENV === 'development'
       ? `http://${host}:3000/graphql`
-      : `http://${host}/graphql`
+      : `https://${host}/graphql`
 
   return new ApolloClient({
     uri: ENDPOINT,
