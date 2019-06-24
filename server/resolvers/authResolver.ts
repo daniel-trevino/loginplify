@@ -77,7 +77,7 @@ export const authMutations = {
 
     // Send verification email
     const host = ctx.req.get('host')
-    sendConfirmationEmail(host, generatedToken.randomToken, email)
+    await sendConfirmationEmail(host, generatedToken.randomToken, email)
 
     return 'Sent verification email'
   },
@@ -109,7 +109,7 @@ export const authMutations = {
 
     // Send confirmation email, not waiting for it since it might delay the sign up process.
     const host = ctx.req.get('host')
-    sendConfirmationEmail(host, generatedToken.randomToken, email)
+    await sendConfirmationEmail(host, generatedToken.randomToken, email)
 
     // 4. Return the user
     return {

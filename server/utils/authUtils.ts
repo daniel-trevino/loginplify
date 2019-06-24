@@ -9,7 +9,7 @@ import {
 } from './constants'
 import { AuthenticationError } from 'apollo-server-core'
 
-export function sendConfirmationEmail(
+export async function sendConfirmationEmail(
   host: string,
   token: string,
   email: string
@@ -36,14 +36,13 @@ export function sendConfirmationEmail(
   }
 
   try {
-    transporter.sendMail(mailOptions)
+    await transporter.sendMail(mailOptions)
     // tslint:disable-next-line:no-console
     console.log('SENDING EMAIL')
+    return true
   } catch (e) {
     throw new Error(e)
   }
-
-  return true
 }
 
 export const isStillValidTokenExpiry = (verifyTokenExpiry: any) => {
