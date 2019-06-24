@@ -1,5 +1,6 @@
 import './lib/env'
 import { ApolloServer } from 'apollo-server-express'
+import * as cors from 'cors'
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import typeDefs from './schema/schema'
@@ -21,6 +22,7 @@ const server = new ApolloServer({
 const app = express()
 
 app.use(bodyParser.json())
+app.use(cors())
 
 app.get('/status', (_: any, res: any) => {
   res.json({ data: `${Date.now()}` })

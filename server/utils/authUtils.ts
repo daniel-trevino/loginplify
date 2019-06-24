@@ -24,7 +24,7 @@ export async function sendConfirmationEmail(
     secure: true
   })
 
-  const LINK = `http://${host}/verify/${token}`
+  const LINK = `http://${host}/verify?token=${token}`
 
   const mailOptions = {
     from: EMAIL_SENDER,
@@ -37,8 +37,6 @@ export async function sendConfirmationEmail(
 
   try {
     await transporter.sendMail(mailOptions)
-    // tslint:disable-next-line:no-console
-    console.log('SENDING EMAIL')
     return true
   } catch (e) {
     throw new Error(e)
