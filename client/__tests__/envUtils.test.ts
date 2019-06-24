@@ -2,9 +2,9 @@ import { cleanHostname } from '../utils/env'
 
 describe('Env utils', () => {
   it('should clean hostname', () => {
-    const mockHostname = 'loginservice.danieltrevino.se'
+    const mockHostname = 'localhost:3000'
     const result = cleanHostname(mockHostname)
 
-    expect(result).toBe('loginservice.danieltrevino.se')
+    expect(result).toBe('localhost')
   })
 })
