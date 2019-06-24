@@ -1,13 +1,13 @@
 import withApollo from 'next-with-apollo'
 import ApolloClient from 'apollo-boost'
-import { getHostname } from '../utils/env'
+import { getHostname, cleanHostname } from '../utils/env'
 
 function createClient({ headers }: any) {
   const host = getHostname(headers)
 
   const ENDPOINT =
     process.env.NODE_ENV === 'development'
-      ? `http://${host}:3000/graphql`
+      ? `http://${cleanHostname(host)}:3000/graphql`
       : `https://${host}/graphql`
 
   return new ApolloClient({

@@ -10,11 +10,11 @@ export const getHostname = (headers: any) => {
   }
 
   if (headers) {
-    return cleanHostname(headers.host)
+    return headers.host
   }
 }
 
-const cleanHostname = (hostname: string) => {
+export const cleanHostname = (hostname: string) => {
   hostname = hostname.match(/:/) ? hostname.split(':')[0] : hostname
 
   const parts = hostname.split('.')
