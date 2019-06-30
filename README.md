@@ -45,7 +45,7 @@ Assuming you have already forked this repository:
 3. Run the following command:
 
 ```
-  now target --production
+  now --target production
 ```
 
 ## 🚀 Deployment to Now with CircleCI
