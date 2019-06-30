@@ -1,0 +1,40 @@
+{
+  "name": "login-service-components",
+  "version": "0.0.17",
+  "description": "Cabonline maps as react components",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run storybook\" \"npm run typescript:watch\"",
+    "storybook": "start-storybook --port 1234",
+    "build": "tsc",
+    "typescript:watch": "tsc -w",
+    "test": "jest",
+    "prepare": "tsc"
+  },
+  "keywords": [],
+  "author": "Daniel Treviño",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@storybook/addon-info": "^5.1.9",
+    "@storybook/addon-knobs": "^5.1.9",
+    "@storybook/react": "^5.1.9",
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "@types/storybook__addon-knobs": "^5.0.1",
+    "@types/storybook__react": "^4.0.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "concurrently": "^4.1.1",
+    "tslint": "^5.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.2"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "files:": [
+    "dist"
+  ]
+}

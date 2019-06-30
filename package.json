@@ -13,6 +13,7 @@
   ],
   "keywords": [],
   "author": "Daniel Treviño",
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {}
 }
