@@ -28,7 +28,14 @@
     "concurrently": "^4.1.1",
     "tslint": "^5.18.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link-http": "^1.5.15",
+    "graphql": "^14.4.1",
+    "graphql-tag": "^2.10.1",
+    "rc-form-hooks": "0.0.1-alpha.3",
+    "styled-components": "^4.3.2"
   },
   "peerDependencies": {
     "react": "^16.8.6",
@@ -36,5 +43,8 @@
   },
   "files:": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "@types/styled-components": "^4.1.16"
+  }
 }

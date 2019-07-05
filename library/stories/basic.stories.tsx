@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react'
 import { withKnobs } from '@storybook/addon-knobs'
 import React from 'react'
-import { Login } from '../src'
+import { withAuthenticator } from '../src'
+import ProtectedPage from '../src/components/helpers/ProtectedPage'
 
 const stories = storiesOf('Basic', module)
 
@@ -10,7 +11,5 @@ const stories = storiesOf('Basic', module)
 stories.addDecorator(withKnobs)
 
 stories.add('Default', () => (
-  <div style={{ height: '100vh' }}>
-    <Login />
-  </div>
+  <div style={{ height: '100vh' }}>{withAuthenticator(ProtectedPage)}</div>
 ))

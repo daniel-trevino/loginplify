@@ -1,5 +1,5 @@
-import Login from './Login'
+import withAuthenticator from './components/withAuthenticator'
 
-export { Login }
+export { withAuthenticator }
 
-export default Login
+export default withAuthenticator
