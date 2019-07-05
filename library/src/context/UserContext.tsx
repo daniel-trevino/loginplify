@@ -1,9 +1,13 @@
 import React from 'react'
 import { reducer, initialState } from './UserReducers'
 import { useActions } from './UserActions'
-import { IUserState, IAction } from '../interfaces/User.interface'
+import {
+  IUserState,
+  IAction,
+  LoginServiceContext
+} from '../interfaces/User.interface'
 
-export const UserContext = React.createContext({} as any)
+export const UserContext = React.createContext({} as LoginServiceContext)
 
 interface IProviderProps {
   children: React.ReactNode
@@ -24,5 +28,8 @@ export const UserProvider = (props: IProviderProps) => {
     </UserContext.Provider>
   )
 }
+
+export const useLoginServiceContext = (): LoginServiceContext =>
+  React.useContext(UserContext)
 
 export default { UserContext, UserProvider }

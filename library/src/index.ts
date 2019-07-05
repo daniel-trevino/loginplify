@@ -1,5 +1,6 @@
 import withAuthenticator from './components/withAuthenticator'
+import useLoginServiceContext from './context/UserContext'
 
-export { withAuthenticator }
+export { withAuthenticator, useLoginServiceContext }
 
 export default withAuthenticator

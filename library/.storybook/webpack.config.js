@@ -8,5 +8,8 @@ module.exports = ({ config }) => {
     ]
   })
   config.resolve.extensions.push('.ts', '.tsx')
+  config.node = {
+    fs: 'empty'
+  }
   return config
 }

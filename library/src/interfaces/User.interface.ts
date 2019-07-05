@@ -1,10 +1,22 @@
+export interface LoginServiceContext {
+  state: IUserState
+  dispatch: (value: IAction) => void
+  actions: LoginServiceActions
+}
+
+export interface LoginServiceActions {
+  login: (token: string) => void
+  logout: () => void
+}
+
 export interface IUserState {
   loggedIn: boolean
+  token: string | null
 }
 
 enum ACTION_TYPE {
   SET_LOGGED_IN = 'SET_LOGGED_IN',
-  SET_USER = 'SET_USER'
+  SET_TOKEN = 'SET_TOKEN'
 }
 export type ActionType = keyof typeof ACTION_TYPE
 

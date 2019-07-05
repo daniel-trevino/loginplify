@@ -1,12 +1,18 @@
 import * as React from 'react'
-import { UserContext } from '../../context/UserContext'
+import { useLoginServiceContext } from '../../context/UserContext'
 
 const ProtectedPage = () => {
-  const { actions } = React.useContext(UserContext)
+  const { actions } = useLoginServiceContext()
+
+  const onClick = () => {
+    actions.logout()
+  }
+
   return (
     <div>
-      <h1>You are logged In</h1>
-      <button onClick={() => actions.logout()}>Logout</button>
+      <h1>You are logged in</h1>
+
+      <button onClick={onClick}>Logout</button>
     </div>
   )
 }

@@ -19,23 +19,29 @@
     "@storybook/addon-info": "^5.1.9",
     "@storybook/addon-knobs": "^5.1.9",
     "@storybook/react": "^5.1.9",
+    "@types/cookie": "^0.3.3",
+    "@types/dotenv": "^6.1.1",
     "@types/react": "^16.8.22",
     "@types/react-dom": "^16.8.4",
     "@types/storybook__addon-knobs": "^5.0.1",
     "@types/storybook__react": "^4.0.2",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.0.6",
-    "concurrently": "^4.1.1",
-    "tslint": "^5.18.0",
-    "tslint-react": "^4.0.0",
-    "typescript": "^3.5.2",
+    "@types/styled-components": "^4.1.16",
+    "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link-http": "^1.5.15",
-    "graphql": "^14.4.1",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "concurrently": "^4.1.1",
+    "cookie": "^0.4.0",
+    "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
     "rc-form-hooks": "0.0.1-alpha.3",
-    "styled-components": "^4.3.2"
+    "react-apollo": "^2.5.8",
+    "styled-components": "^4.3.2",
+    "tslint": "^5.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.2"
   },
   "peerDependencies": {
     "react": "^16.8.6",
@@ -45,6 +51,6 @@
     "dist"
   ],
   "dependencies": {
-    "@types/styled-components": "^4.1.16"
+    "dotenv": "^8.0.0"
   }
 }

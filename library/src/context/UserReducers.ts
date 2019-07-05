@@ -1,12 +1,16 @@
+import cookie from 'cookie'
 import { IUserState, ActionTypes, IAction } from '../interfaces/User.interface'
 
+const currentToken = cookie.parse(document.cookie).token || null
+
 const initialState: IUserState = {
-  loggedIn: false
+  loggedIn: Boolean(currentToken) || false,
+  token: currentToken
 }
 
 const types: ActionTypes = {
   SET_LOGGED_IN: 'SET_LOGGED_IN',
-  SET_USER: 'SET_USER'
+  SET_TOKEN: 'SET_TOKEN'
 }
 
 const reducer: React.Reducer<IUserState, IAction> = (
@@ -18,6 +22,11 @@ const reducer: React.Reducer<IUserState, IAction> = (
       return {
         ...state,
         loggedIn: action.payload
+      }
+    case types.SET_TOKEN:
+      return {
+        ...state,
+        token: action.payload
       }
     default:
       throw new Error('Unexpected action')
