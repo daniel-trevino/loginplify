@@ -1,4 +1,6 @@
 import * as React from 'react'
+import styled from 'styled-components'
+import { primaryColor, bordercolor } from '../utils/vars'
 
 interface IProps {
   name: string
@@ -6,6 +8,21 @@ interface IProps {
   type: 'text' | 'password' | 'number'
   onChange?: Function
 }
+
+const InputComponent = styled.input`
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border: 1px solid ${bordercolor};
+  border-radius: 3px;
+  outline-color: ${primaryColor};
+  color: #000;
+  transition: border-color 0.5s ease-out;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+`
 
 const Input = (props: IProps) => {
   const { name, placeholder, type, onChange } = props
@@ -44,7 +61,7 @@ const Input = (props: IProps) => {
   }
 
   return (
-    <input
+    <InputComponent
       placeholder={placeholder}
       value={fixControlledValue(value)}
       type={type}

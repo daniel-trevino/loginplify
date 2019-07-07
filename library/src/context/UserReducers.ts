@@ -1,7 +1,7 @@
-import cookie from 'cookie'
+import Cookies from 'js-cookie'
 import { IUserState, ActionTypes, IAction } from '../interfaces/User.interface'
 
-const currentToken = cookie.parse(document.cookie).token || null
+const currentToken = Cookies.get('token')
 
 const initialState: IUserState = {
   loggedIn: Boolean(currentToken) || false,

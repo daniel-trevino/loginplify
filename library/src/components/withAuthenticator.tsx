@@ -6,13 +6,15 @@ import LoginController from '../LoginController'
 dotenv.config()
 
 function withAuthenticator(Wrapped: any) {
-  return (
-    <UserProvider>
-      <LoginController>
-        <Wrapped />
-      </LoginController>
-    </UserProvider>
-  )
+  return (props: any) => {
+    return (
+      <UserProvider>
+        <LoginController>
+          <Wrapped />
+        </LoginController>
+      </UserProvider>
+    )
+  }
 }
 
 export default withAuthenticator

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useLoginServiceContext } from '../../context/UserContext'
+import withAuthenticator from '../../components/withAuthenticator'
 
 const ProtectedPage = () => {
   const { actions } = useLoginServiceContext()
@@ -17,4 +18,4 @@ const ProtectedPage = () => {
   )
 }
 
-export default ProtectedPage
+export default withAuthenticator(ProtectedPage)

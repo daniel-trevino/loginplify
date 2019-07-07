@@ -5,6 +5,7 @@ import { gql } from 'apollo-boost'
 import StringFormItem from '../components/StringFormItem'
 import { useLoginServiceContext } from '../context/UserContext'
 import styled from 'styled-components'
+import Button from './Button'
 
 const LOGIN = gql`
   mutation LOGIN($email: String!, $password: String!) {
@@ -14,21 +15,25 @@ const LOGIN = gql`
   }
 `
 
+const LoginContainer = styled.div`
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 const Form = styled.form`
   position: absolute;
   background-color: #ffffff;
-  max-width: 600px;
-  width: 100%;
-  padding: 2rem 5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 3em;
+  min-width: 400px;
 `
 
 const FormItem = styled(StringFormItem)`
-  margin-bottom: 2rem;
-`
-
-const FormButton = styled.button`
-  width: 100%;
-  padding: 0.8rem 0;
+  margin-bottom: 1rem;
 `
 
 const LoginForm = () => {
@@ -69,24 +74,30 @@ const LoginForm = () => {
       }}
     >
       {(login: any, { data, error, loading }: any) => (
-        <Form onSubmit={e => onSubmit(e, login)}>
-          <FormItem
-            label="Email"
-            name="email"
-            type="text"
-            getFieldDecorator={getFieldDecorator}
-            setFields={setFields}
-          />
-          <FormItem
-            label="Password"
-            name="password"
-            type="password"
-            getFieldDecorator={getFieldDecorator}
-            setFields={setFields}
-          />
+        <LoginContainer>
+          <Form onSubmit={e => onSubmit(e, login)}>
+            <FormItem
+              label="Email"
+              name="email"
+              type="text"
+              placeholder="Email address"
+              getFieldDecorator={getFieldDecorator}
+              setFields={setFields}
+            />
+            <FormItem
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="Password"
+              getFieldDecorator={getFieldDecorator}
+              setFields={setFields}
+            />
 
-          <FormButton type={'submit'}>Login</FormButton>
-        </Form>
+            <Button type={'submit'} loading={loading}>
+              Login
+            </Button>
+          </Form>
+        </LoginContainer>
       )}
     </Mutation>
   )

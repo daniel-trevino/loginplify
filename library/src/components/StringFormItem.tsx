@@ -14,14 +14,17 @@ interface IProps {
 }
 
 const FormItem = styled.div`
-  width: 100%;
-
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 `
 
 const Label = styled.label`
-  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
 `
 
 const StringFormItem = (props: IProps) => {
