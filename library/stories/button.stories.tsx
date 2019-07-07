@@ -9,5 +9,9 @@ const stories = storiesOf('Button', module)
 // You can also configure `withKnobs` as a global decorator.
 stories.addDecorator(withKnobs)
 
-stories.add('Default', () => <Button>Click</Button>)
-stories.add('Loading', () => <Button loading />)
+stories.add('Default', () => <Button type="submit">Click</Button>)
+stories.add('Loading', () => (
+  <Button type="submit" loading>
+    Click
+  </Button>
+))

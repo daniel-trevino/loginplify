@@ -93,7 +93,7 @@ const LoginForm = () => {
               setFields={setFields}
             />
 
-            <Button type={'submit'} loading={loading}>
+            <Button type="submit" loading={loading}>
               Login
             </Button>
           </Form>

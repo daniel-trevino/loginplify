@@ -3,6 +3,13 @@ import styled from 'styled-components'
 import { gutter, primaryColor, darkGray, lightGray } from '../utils/vars'
 import Balls from './Balls'
 
+interface IProps {
+  className?: string
+  loading?: boolean
+  children: React.ReactNode
+  type?: 'button' | 'reset' | 'submit'
+}
+
 const ButtonComponent = styled.button`
   &:before {
     position: absolute;
@@ -65,8 +72,8 @@ const BallsWrapper = styled.div`
   justify-content: center;
 `
 
-const Button = (props: any) => {
-  const { loading } = props
+const Button = (props: IProps) => {
+  const { loading = false, type, children, className } = props
 
   if (loading) {
     return (
@@ -76,7 +83,11 @@ const Button = (props: any) => {
     )
   }
 
-  return <ButtonComponent {...props} />
+  return (
+    <ButtonComponent type={type} className={className}>
+      {children}
+    </ButtonComponent>
+  )
 }
 
 export default Button
