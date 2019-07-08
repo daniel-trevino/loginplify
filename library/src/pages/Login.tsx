@@ -4,10 +4,9 @@ import styled from 'styled-components'
 import GlobalStyle from '../components/GlobalStyle'
 
 const PageWrapper = styled.div`
+  padding: 0 4%;
   background-color: #f5f6fa;
-  width: 100%;
   min-height: 100vh;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;

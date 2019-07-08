@@ -30,20 +30,18 @@ const SIGN_UP = gql`
 `
 
 const LoginContainer = styled.div`
+  display: block;
   max-width: 600px;
   width: 100%;
-  display: flex;
   align-items: center;
   justify-content: center;
 `
 
 const Form = styled.form`
-  position: absolute;
   background-color: #ffffff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   border-radius: 4px;
   padding: 3em;
-  min-width: 400px;
 `
 
 const FormItem = styled(StringFormItem)`
