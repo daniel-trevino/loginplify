@@ -7,6 +7,7 @@ interface IProps {
   placeholder?: string
   type: 'text' | 'password' | 'number'
   onChange?: Function
+  forwardedRef?: any
 }
 
 const InputComponent = styled.input`
@@ -27,7 +28,7 @@ const InputComponent = styled.input`
   }
 `
 
-const Input = (props: IProps) => {
+const Input = React.forwardRef((props: IProps, ref: any) => {
   const { name, placeholder, type, onChange } = props
   const inputEl: any = React.useRef(null)
 
@@ -65,13 +66,14 @@ const Input = (props: IProps) => {
 
   return (
     <InputComponent
+      ref={ref}
       placeholder={placeholder}
       value={fixControlledValue(value)}
       type={type}
-      onChange={onChangeLocal}
       name={name}
+      onChange={onChangeLocal}
     />
   )
-}
+})
 
 export default Input

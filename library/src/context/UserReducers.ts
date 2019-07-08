@@ -12,7 +12,8 @@ const initialState: IUserState = {
 const types: ActionTypes = {
   WANTS_TO_SIGNUP: 'WANTS_TO_SIGNUP',
   SET_LOGGED_IN: 'SET_LOGGED_IN',
-  SET_TOKEN: 'SET_TOKEN'
+  SET_TOKEN: 'SET_TOKEN',
+  RESET_STATE: 'RESET_STATE'
 }
 
 const reducer: React.Reducer<IUserState, IAction> = (
@@ -35,6 +36,12 @@ const reducer: React.Reducer<IUserState, IAction> = (
         ...state,
         token: action.payload
       }
+    case types.RESET_STATE:
+      return {
+        ...state,
+        signingUp: initialState.signingUp
+      }
+
     default:
       throw new Error('Unexpected action')
   }

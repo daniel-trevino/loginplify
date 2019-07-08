@@ -21,6 +21,14 @@ const LOGIN = gql`
   }
 `
 
+const SIGN_UP = gql`
+  mutation SIGN_UP($name: String!, $email: String!, $password: String!) {
+    signUp(name: $name, email: $email, password: $password) {
+      token
+    }
+  }
+`
+
 const LoginContainer = styled.div`
   max-width: 600px;
   width: 100%;
@@ -42,7 +50,7 @@ const FormItem = styled(StringFormItem)`
   margin-bottom: 1rem;
 `
 
-const SignUpText = styled.div`
+const InfoText = styled.div`
   display: flex;
   justify-content: center;
   p {
@@ -71,9 +79,10 @@ const ErrorWrapper = styled.div`
 `
 
 const LoginForm = () => {
-  const { actions } = useLoginServiceContext()
+  const { actions, state } = useLoginServiceContext()
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
   const [inputFields, setInputFields] = React.useState({
+    name: '',
     email: '',
     password: ''
   })
@@ -100,9 +109,11 @@ const LoginForm = () => {
 
   const onCompletedMutation = (data: any) => {
     // Store the token in cookie
-    const { token } = data.login
+    const { token } = state.signingUp ? data.signUp : data.login
 
     actions.login(token)
+
+    actions.resetState()
   }
 
   const onChangeField = async (e: any) => {
@@ -119,9 +130,24 @@ const LoginForm = () => {
     }
   }
 
+  const infoText = state.signingUp ? (
+    <p>
+      Already have an account?{' '}
+      <span onClick={() => actions.toSignUp(false)}>Login</span>
+    </p>
+  ) : (
+    <p>
+      Dont have an account yet?{' '}
+      <span onClick={() => actions.toSignUp()}>Sign up</span>
+    </p>
+  )
+
+  const buttonText = state.signingUp ? 'Sign Up' : 'Login'
+  const mutation = state.signingUp ? SIGN_UP : LOGIN
+
   return (
     <Mutation
-      mutation={LOGIN}
+      mutation={mutation}
       onCompleted={onCompletedMutation}
       onError={(error: any) => {
         // If you want to send error to external service?
@@ -132,6 +158,17 @@ const LoginForm = () => {
         return (
           <LoginContainer>
             <Form onSubmit={e => onSubmit(e, login)}>
+              {state.signingUp && (
+                <FormItem
+                  label="Name"
+                  name="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  getFieldDecorator={getFieldDecorator}
+                  setFields={setFields}
+                  onChange={onChangeField}
+                />
+              )}
               <FormItem
                 label="Email"
                 name="email"
@@ -156,14 +193,10 @@ const LoginForm = () => {
                 loading={loading}
                 disabled={!isPossibleValid}
               >
-                Login
+                {buttonText}
               </Button>
 
-              <SignUpText>
-                <p>
-                  Dont have an account yet? <span>Sign up</span>
-                </p>
-              </SignUpText>
+              <InfoText>{infoText}</InfoText>
 
               {error && (
                 <ErrorWrapper>

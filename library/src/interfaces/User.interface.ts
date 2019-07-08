@@ -5,9 +5,10 @@ export interface LoginServiceContext {
 }
 
 export interface LoginServiceActions {
-  signUp: () => void
+  toSignUp: (value?: boolean) => void
   login: (token: string) => void
   logout: () => void
+  resetState: () => void
 }
 
 export interface IUserState {
@@ -19,7 +20,8 @@ export interface IUserState {
 enum ACTION_TYPE {
   WANTS_TO_SIGNUP = 'WANTS_TO_SIGNUP',
   SET_LOGGED_IN = 'SET_LOGGED_IN',
-  SET_TOKEN = 'SET_TOKEN'
+  SET_TOKEN = 'SET_TOKEN',
+  RESET_STATE = 'RESET_STATE'
 }
 export type ActionType = keyof typeof ACTION_TYPE
 

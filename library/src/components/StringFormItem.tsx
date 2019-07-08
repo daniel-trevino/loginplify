@@ -11,6 +11,7 @@ interface IProps {
   type: 'text' | 'password' | 'number'
   setFields: any
   onChange?: Function
+  ref?: any
 }
 
 const FormItem = styled.div`
@@ -35,7 +36,8 @@ const StringFormItem = (props: IProps) => {
     placeholder,
     type,
     className,
-    onChange
+    onChange,
+    ref
   } = props
 
   return (
@@ -47,6 +49,7 @@ const StringFormItem = (props: IProps) => {
           placeholder={placeholder}
           type={type}
           onChange={onChange}
+          ref={ref}
         />
       )}
     </FormItem>
