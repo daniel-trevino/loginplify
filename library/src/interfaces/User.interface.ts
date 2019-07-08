@@ -5,16 +5,19 @@ export interface LoginServiceContext {
 }
 
 export interface LoginServiceActions {
+  signUp: () => void
   login: (token: string) => void
   logout: () => void
 }
 
 export interface IUserState {
+  signingUp: boolean
   loggedIn: boolean
   token: string | null
 }
 
 enum ACTION_TYPE {
+  WANTS_TO_SIGNUP = 'WANTS_TO_SIGNUP',
   SET_LOGGED_IN = 'SET_LOGGED_IN',
   SET_TOKEN = 'SET_TOKEN'
 }

@@ -10,6 +10,9 @@ export const useActions = (
   state: IUserState,
   dispatch: (value: IAction) => void
 ): LoginServiceActions => {
+  function signUp() {
+    dispatch({ type: types.WANTS_TO_SIGNUP, payload: true })
+  }
   function login(token: string) {
     createTokenCookie(token)
     dispatch({ type: types.SET_LOGGED_IN, payload: Boolean(token) })
@@ -21,6 +24,7 @@ export const useActions = (
   }
 
   return {
+    signUp,
     login,
     logout
   }

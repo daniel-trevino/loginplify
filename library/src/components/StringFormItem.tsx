@@ -28,13 +28,26 @@ const Label = styled.label`
 `
 
 const StringFormItem = (props: IProps) => {
-  const { label, name, getFieldDecorator, placeholder, type, className } = props
+  const {
+    label,
+    name,
+    getFieldDecorator,
+    placeholder,
+    type,
+    className,
+    onChange
+  } = props
 
   return (
     <FormItem className={className}>
       {label && <Label htmlFor={name}>{label}</Label>}
       {getFieldDecorator(name)(
-        <Input name={name} placeholder={placeholder} type={type} />
+        <Input
+          name={name}
+          placeholder={placeholder}
+          type={type}
+          onChange={onChange}
+        />
       )}
     </FormItem>
   )

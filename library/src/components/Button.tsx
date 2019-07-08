@@ -5,6 +5,7 @@ import Balls from './Balls'
 
 interface IProps {
   className?: string
+  disabled?: boolean
   loading?: boolean
   children: React.ReactNode
   type?: 'button' | 'reset' | 'submit'
@@ -73,7 +74,7 @@ const BallsWrapper = styled.div`
 `
 
 const Button = (props: IProps) => {
-  const { loading = false, type, children, className } = props
+  const { loading = false, type, children, className, disabled = false } = props
 
   if (loading) {
     return (
@@ -84,7 +85,7 @@ const Button = (props: IProps) => {
   }
 
   return (
-    <ButtonComponent type={type} className={className}>
+    <ButtonComponent type={type} className={className} disabled={disabled}>
       {children}
     </ButtonComponent>
   )

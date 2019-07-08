@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { primaryColor, bordercolor } from '../utils/vars'
+import { primaryColor, bordercolor, darkGray } from '../utils/vars'
 
 interface IProps {
   name: string
@@ -16,12 +16,15 @@ const InputComponent = styled.input`
   margin-bottom: 20px;
   padding: 10px 20px;
   border: 1px solid ${bordercolor};
-  border-radius: 3px;
+  border-radius: 4px;
   outline-color: ${primaryColor};
   color: #000;
   transition: border-color 0.5s ease-out;
-  -webkit-box-shadow: none;
   box-shadow: none;
+
+  &::placeholder {
+    color: ${darkGray};
+  }
 `
 
 const Input = (props: IProps) => {
