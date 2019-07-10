@@ -1,9 +1,21 @@
-import User from '../models/userModel'
 import mongoose from '../lib/database'
 import { getUserID } from '../utils/userUtils'
+import { verifyAdmin } from '../utils/authUtils'
+import { AuthenticationError } from 'apollo-server-core'
 
 export const userQueries = {
-  getUsers: async () => await User.find({}).exec(),
+  getUsers: async (_: any, _args: any, ctx: any) => {
+    const user = await userQueries.me(_, _args, ctx)
+
+    const isAdmin = verifyAdmin(user.permissions)
+
+    if (!isAdmin) {
+      throw new AuthenticationError('You dont have permissions for that')
+    }
+
+    const users = await ctx.models.User.find({}).exec()
+    return users
+  },
   me: async (_: any, _args: any, ctx: any) => {
     const _id = getUserID(ctx)
 

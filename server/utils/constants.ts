@@ -5,4 +5,7 @@ export const EMAIL_HOST: string = process.env.EMAIL_HOST || ''
 export const EMAIL_USER: string = process.env.EMAIL_USER || ''
 export const EMAIL_PASSWORD: string = process.env.EMAIL_PASSWORD || ''
 export const EMAIL_SENDER: string = process.env.EMAIL_SENDER || ''
-export const DEFAULT_PERMISSION = 'USER'
+export const PERMISSIONS = {
+  DEFAULT_PERMISSION: 'USER',
+  ADMIN_PERMISSION: 'ADMIN'
+}

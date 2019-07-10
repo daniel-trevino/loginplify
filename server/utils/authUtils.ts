@@ -1,4 +1,5 @@
 import * as nodemailer from 'nodemailer'
+// import mongoose from '../lib/database'
 import { randomBytes } from 'crypto'
 import { promisify } from 'util'
 import {
@@ -67,4 +68,8 @@ export async function isAlreadyRegistered(ctx: any, email: string) {
   } catch (e) {
     throw new Error(e)
   }
+}
+
+export function verifyAdmin(permissions: Array<any>): boolean {
+  return Boolean(permissions.find(permission => permission.enum === 'ADMIN'))
 }
