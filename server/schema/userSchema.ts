@@ -31,5 +31,11 @@ export default gql`
     login(email: String!, password: String!): AuthPayload!
     verify(token: String!): String!
     requestVerify(email: String!): String!
+    requestReset(email: String!): String!
+    resetPassword(
+      resetToken: String!
+      password: String!
+      confirmPassword: String!
+    ): AuthPayload!
   }
 `
