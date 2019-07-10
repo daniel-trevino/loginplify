@@ -1,4 +1,4 @@
-import { types } from './UserReducers'
+import { types } from '../reducers/UserReducers'
 import {
   IUserState,
   IAction,

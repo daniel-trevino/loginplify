@@ -6,7 +6,8 @@ export const getHostname = (headers: any) => {
   }
 
   if (isBrowser()) {
-    return cleanHostname(window.location.hostname)
+    const host = window.location.host || null
+    return host && cleanHostname(host)
   }
 
   if (headers) {
@@ -15,6 +16,7 @@ export const getHostname = (headers: any) => {
 }
 
 export const cleanHostname = (hostname: string) => {
+  if (!hostname) return
   hostname = hostname.match(/:/) ? hostname.split(':')[0] : hostname
 
   const parts = hostname.split('.')

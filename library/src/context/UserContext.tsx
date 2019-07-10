@@ -1,6 +1,6 @@
 import React from 'react'
-import { reducer, initialState } from './UserReducers'
-import { useActions } from './UserActions'
+import { reducer, initialState } from '../reducers/UserReducers'
+import { useActions } from '../actions/UserActions'
 import {
   IUserState,
   IAction,

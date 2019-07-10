@@ -1,4 +1,4 @@
-# Login service
+# Loginplify
 
 ## 🧐 What is this?
 
@@ -6,7 +6,7 @@ Handle all the logins for multiple applications with a serverless graphql backen
 
 ## Folder structure and development
 
-This is a monorepo, so both client/server are withing the repository. You need to create a `.env` file on the root path of this repository. Make a copu from `.env.sample` and rename it to `.env`. Modify the values to your settings. After doing that, you can run the server locally with:
+This is a monorepo, so both client/server are withing the repository. You need to create a `.env` file on the root path of this repository. Make a copy from `.env.sample` and rename it to `.env`. Modify the values to your settings. After doing that, you can run the server locally with:
 
 ```
   cd server && npm run dev

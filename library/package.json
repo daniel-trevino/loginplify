@@ -20,7 +20,6 @@
     "@storybook/addon-knobs": "^5.1.9",
     "@storybook/react": "^5.1.9",
     "@types/cookie": "^0.3.3",
-    "@types/dotenv": "^6.1.1",
     "@types/js-cookie": "^2.2.2",
     "@types/react": "^16.8.22",
     "@types/react-dom": "^16.8.4",
@@ -55,7 +54,6 @@
     "dist"
   ],
   "dependencies": {
-    "dotenv": "^8.0.0",
     "styled-components": "^4.3.2"
   }
 }

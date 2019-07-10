@@ -2,6 +2,10 @@ import * as React from 'react'
 import { useLoginServiceContext } from '../../context/UserContext'
 import withAuthenticator from '../../components/withAuthenticator'
 
+const settings = {
+  endpoint: 'https://loginservice.danieltrevino.se/graphql'
+}
+
 const ProtectedPage = () => {
   const { actions } = useLoginServiceContext()
 
@@ -18,4 +22,4 @@ const ProtectedPage = () => {
   )
 }
 
-export default withAuthenticator(ProtectedPage)
+export default withAuthenticator(ProtectedPage, settings)

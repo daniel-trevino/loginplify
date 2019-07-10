@@ -4,18 +4,18 @@ import { ApolloProvider } from 'react-apollo'
 
 import Login from './pages/Login'
 import { UserContext } from './context/UserContext'
-
-const ENDPOINT_URL = process.env.ENDPOINT_URL || null
-
-const client = new ApolloClient({ uri: ENDPOINT_URL })
+import { SettingsContext } from './context/SettingsContext'
 
 const LoginController = (props: any) => {
   const { state } = React.useContext(UserContext)
+  const settingsContext = React.useContext(SettingsContext)
 
-  if (!ENDPOINT_URL) {
-    console.error('Please assign ENDPOINT_URL on your environmental variables')
+  if (!settingsContext.state.endpoint) {
+    console.error('Please initialize the login package')
     return null
   }
+
+  const client = new ApolloClient({ uri: settingsContext.state.endpoint })
 
   // Only re-rendered if `state.loggedIn` changes:
   const children = React.useMemo(

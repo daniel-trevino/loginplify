@@ -1,18 +1,19 @@
-import dotenv from 'dotenv'
 import * as React from 'react'
 import { UserProvider } from '../context/UserContext'
+import { SettingsProvider } from '../context/SettingsContext'
 import LoginController from '../LoginController'
+import { ISettingsState } from '../interfaces/Settings.interface'
 
-dotenv.config()
-
-function withAuthenticator(Wrapped: any) {
+function withAuthenticator(Wrapped: any, settings: ISettingsState) {
   return (props: any) => {
     return (
-      <UserProvider>
-        <LoginController>
-          <Wrapped />
-        </LoginController>
-      </UserProvider>
+      <SettingsProvider settings={settings}>
+        <UserProvider>
+          <LoginController>
+            <Wrapped />
+          </LoginController>
+        </UserProvider>
+      </SettingsProvider>
     )
   }
 }
