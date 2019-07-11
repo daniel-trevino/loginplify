@@ -72,47 +72,6 @@ export const authMutations = {
 
     return 'Reset password email sent'
   },
-  requestVerify: async (_: any, args: any, ctx: any) => {
-    const email = args.email.toLowerCase()
-    // Get the user
-    const user = await ctx.models.User.findOne({
-      email
-    })
-    // Check if the user exists
-    if (!user) {
-      throw new AuthenticationError('This user is not registered')
-    }
-    // Check if the user has been verified already
-    if (user.verified) {
-      throw new AuthenticationError('This user is already verified')
-    }
-
-    // Create a verify token
-    const generatedToken = await createRandomToken()
-
-    // Remove the verify token and verify the user
-    const verifiedUser = await ctx.models.User.updateOne(
-      {
-        _id: user._id
-      },
-      {
-        ...user._doc,
-        verifyToken: generatedToken.randomToken,
-        verifyTokenExpiry: generatedToken.randomTokenExpiry
-      },
-      { upsert: true }
-    )
-
-    if (!verifiedUser) {
-      throw new AuthenticationError('Something went really wrong')
-    }
-
-    // Send verification email
-    const host = ctx.req.get('host')
-    await sendConfirmationEmail(host, generatedToken.randomToken, email)
-
-    return 'Sent verification email'
-  },
   resetPassword: async (_: any, args: any, ctx: any) => {
     // Check if the passwords match
     if (args.password !== args.confirmPassword) {
@@ -159,7 +118,7 @@ export const authMutations = {
     )
 
     return authPayload
-  }
+  },
   signUp: async (_: any, args: any, ctx: any) => {
     // Lowercase their email
     const email = args.email.toLowerCase()
@@ -230,5 +189,5 @@ export const authMutations = {
     }
 
     return 'Verified'
-  },
+  }
 }
