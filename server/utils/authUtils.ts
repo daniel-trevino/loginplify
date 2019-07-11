@@ -44,6 +44,40 @@ export async function sendConfirmationEmail(
   }
 }
 
+export async function sendResetPasswordEmail(
+  host: string,
+  token: string,
+  email: string
+) {
+  const transporter = nodemailer.createTransport({
+    auth: {
+      pass: EMAIL_PASSWORD,
+      user: EMAIL_USER
+    },
+    host: EMAIL_HOST,
+    port: 465,
+    secure: true
+  })
+
+  const LINK = `http://${host}/resetpassword?token=${token}`
+
+  const mailOptions = {
+    from: EMAIL_SENDER,
+    subject: `Reset password`,
+    text: `
+      Visit this link to reset your password: ${LINK}
+    `,
+    to: email
+  }
+
+  try {
+    await transporter.sendMail(mailOptions)
+    return true
+  } catch (e) {
+    throw new Error(e)
+  }
+}
+
 export const isStillValidTokenExpiry = (verifyTokenExpiry: any) => {
   const oneHourAgo = Date.now() - 3600000
   return verifyTokenExpiry > oneHourAgo

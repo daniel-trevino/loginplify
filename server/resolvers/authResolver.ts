@@ -5,6 +5,7 @@ import { isAlreadyRegistered } from '../utils/authUtils'
 import { getDefaultPermissions } from '../utils/dbUtils'
 import {
   sendConfirmationEmail,
+  sendResetPasswordEmail,
   isStillValidTokenExpiry,
   createRandomToken
 } from '../utils/authUtils'
@@ -68,7 +69,9 @@ export const authMutations = {
       throw new AuthenticationError('Something went really wrong')
     }
 
-    // Send reset password email
+    // Send reset password email not waiting for it since it might delay the sign up process.
+    const host = ctx.req.get('host')
+    await sendResetPasswordEmail(host, resetToken.randomToken, email)
 
     return 'Reset password email sent'
   },
