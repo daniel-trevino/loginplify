@@ -21,8 +21,6 @@ export const authMutations = {
     // 1. Check if there is a user with that email
     const user = await ctx.models.User.findOne({ email })
 
-    console.log('therealuser', user)
-
     if (!user) {
       throw new AuthenticationError(`No such user found for email: ${email}`)
     }
@@ -41,6 +39,38 @@ export const authMutations = {
       token,
       user
     }
+  },
+  requestReset: async (_: any, { email }: { email: string }, ctx: any) => {
+    // Check if there is a user with that email
+    const user = await ctx.models.User.findOne({ email })
+
+    if (!user) {
+      throw new AuthenticationError(`No such user found for email: ${email}`)
+    }
+
+    // Set a reset token and expiry on that user
+    const resetToken = await createRandomToken()
+
+    // Update user adding the reset token and expiry
+    const requestingUser = await ctx.models.User.updateOne(
+      {
+        _id: user._id
+      },
+      {
+        ...user._doc,
+        resetToken: resetToken.randomToken,
+        resetTokenExpiry: resetToken.randomTokenExpiry
+      },
+      { upsert: true }
+    )
+
+    if (!requestingUser) {
+      throw new AuthenticationError('Something went really wrong')
+    }
+
+    // Send reset password email
+
+    return 'Reset password email sent'
   },
   requestVerify: async (_: any, args: any, ctx: any) => {
     const email = args.email.toLowerCase()
@@ -83,6 +113,53 @@ export const authMutations = {
 
     return 'Sent verification email'
   },
+  resetPassword: async (_: any, args: any, ctx: any) => {
+    // Check if the passwords match
+    if (args.password !== args.confirmPassword) {
+      throw new Error('Passwords do not match')
+    }
+
+    // Get the user
+    const user = await ctx.models.User.findOne({
+      resetToken: args.resetToken
+    })
+
+    // Check if the token is valid
+    const isValidToken =
+      (user && isStillValidTokenExpiry(user.resetTokenExpiry)) || null
+
+    if (!user || !isValidToken) {
+      throw new AuthenticationError('The token is no longer valid')
+    }
+    // Hash the new password
+    const password = await bcrypt.hash(args.password, 10)
+
+    // Update the user
+    await ctx.models.User.updateOne(
+      {
+        _id: user._id
+      },
+      {
+        ...user._doc,
+        password,
+        resetToken: null,
+        resetTokenExpiry: null
+      },
+      { upsert: true }
+    )
+
+    // Login the user and return
+    const authPayload = await authMutations.login(
+      _,
+      {
+        email: user.email,
+        password: args.password
+      },
+      ctx
+    )
+
+    return authPayload
+  }
   signUp: async (_: any, args: any, ctx: any) => {
     // Lowercase their email
     const email = args.email.toLowerCase()
@@ -154,83 +231,4 @@ export const authMutations = {
 
     return 'Verified'
   },
-  requestReset: async (_: any, { email }: { email: string }, ctx: any) => {
-    // Check if there is a user with that email
-    const user = await ctx.models.User.findOne({ email })
-
-    if (!user) {
-      throw new AuthenticationError(`No such user found for email: ${email}`)
-    }
-
-    // Set a reset token and expiry on that user
-    const resetToken = await createRandomToken()
-
-    // Update user adding the reset token and expiry
-    const requestingUser = await ctx.models.User.updateOne(
-      {
-        _id: user._id
-      },
-      {
-        ...user._doc,
-        resetToken: resetToken.randomToken,
-        resetTokenExpiry: resetToken.randomTokenExpiry
-      },
-      { upsert: true }
-    )
-
-    if (!requestingUser) {
-      throw new AuthenticationError('Something went really wrong')
-    }
-
-    // Send reset password email
-
-    return 'Reset password email sent'
-  },
-  resetPassword: async (_: any, args: any, ctx: any) => {
-    // Check if the passwords match
-    if (args.password !== args.confirmPassword) {
-      throw new Error('Passwords do not match')
-    }
-
-    // Get the user
-    const user = await ctx.models.User.findOne({
-      resetToken: args.resetToken
-    })
-
-    // Check if the token is valid
-    const isValidToken =
-      (user && isStillValidTokenExpiry(user.resetTokenExpiry)) || null
-
-    if (!user || !isValidToken) {
-      throw new AuthenticationError('The token is no longer valid')
-    }
-    // Hash the new password
-    const password = await bcrypt.hash(args.password, 10)
-
-    // Update the user
-    await ctx.models.User.updateOne(
-      {
-        _id: user._id
-      },
-      {
-        ...user._doc,
-        password,
-        resetToken: null,
-        resetTokenExpiry: null
-      },
-      { upsert: true }
-    )
-
-    // Login the user and return
-    const authPayload = await authMutations.login(
-      _,
-      {
-        email: user.email,
-        password: args.password
-      },
-      ctx
-    )
-
-    return authPayload
-  }
 }
