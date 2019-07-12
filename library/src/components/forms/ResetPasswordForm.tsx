@@ -8,12 +8,11 @@ import styled from 'styled-components'
 import Button from '../Button'
 import TextButton from '../TextButton'
 import { dangerColor, dangerBorder } from '../../utils/vars'
+import SuccessMessage from '../SuccessMessage'
 
-const LOGIN = gql`
-  mutation LOGIN($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
+const REQUEST_PASSWORD = gql`
+  mutation REQUEST_PASSWORD($email: String!) {
+    requestReset(email: $email)
   }
 `
 
@@ -58,7 +57,8 @@ const ErrorWrapper = styled.div`
 `
 
 const ResetPasswordForm = () => {
-  const { actions, state } = useLoginServiceContext()
+  const { actions } = useLoginServiceContext()
+  const [requestSent, setRequestSent] = React.useState(false)
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
   const [inputFields, setInputFields] = React.useState({
     email: ''
@@ -70,7 +70,7 @@ const ResetPasswordForm = () => {
     email: string
   }>()
 
-  const onSubmit = async (e: React.FormEvent, login: Function) => {
+  const onSubmit = async (e: React.FormEvent, requestReset: Function) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -78,18 +78,11 @@ const ResetPasswordForm = () => {
 
     if (invalidFields(values)) return
 
-    login({
-      variables: values
-    })
+    requestReset({ variables: values })
   }
 
   const onCompletedMutation = (data: any) => {
-    // Store the token in cookie
-    const { token } = state.view === 'signup' ? data.signUp : data.login
-
-    actions.login(token)
-
-    actions.resetState()
+    setRequestSent(true)
   }
 
   const onChangeField = async (e: any) => {
@@ -107,11 +100,22 @@ const ResetPasswordForm = () => {
   }
 
   return (
-    <Mutation mutation={LOGIN} onCompleted={onCompletedMutation}>
-      {(login: any, { data, error, loading }: any) => {
+    <Mutation mutation={REQUEST_PASSWORD} onCompleted={onCompletedMutation}>
+      {(requestReset: any, { data, error, loading }: any) => {
+        if (requestSent) {
+          return (
+            <SuccessMessage title="Success">
+              <p>The reset password email has been sent!</p>
+              <BackButton onClick={() => actions.setView('login')}>
+                Go back to login screen
+              </BackButton>
+            </SuccessMessage>
+          )
+        }
+
         return (
           <LoginContainer>
-            <Form onSubmit={e => onSubmit(e, login)}>
+            <Form onSubmit={e => onSubmit(e, requestReset)}>
               <h2>Reset your password</h2>
               <p>Write your email and you will receive a password reset link</p>
               <FormItem
