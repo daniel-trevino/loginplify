@@ -2,28 +2,16 @@ import * as React from 'react'
 import useForm from 'rc-form-hooks'
 import { Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
-import StringFormItem from '../components/StringFormItem'
-import { useLoginServiceContext } from '../context/UserContext'
+import StringFormItem from '../StringFormItem'
+import { useLoginServiceContext } from '../../context/UserContext'
 import styled from 'styled-components'
-import Button from './Button'
-import {
-  darkGray,
-  primaryColor,
-  dangerColor,
-  dangerBorder
-} from '../utils/vars'
+import Button from '../Button'
+import TextButton from '../TextButton'
+import { dangerColor, dangerBorder } from '../../utils/vars'
 
 const LOGIN = gql`
   mutation LOGIN($email: String!, $password: String!) {
     login(email: $email, password: $password) {
-      token
-    }
-  }
-`
-
-const SIGN_UP = gql`
-  mutation SIGN_UP($name: String!, $email: String!, $password: String!) {
-    signUp(name: $name, email: $email, password: $password) {
       token
     }
   }
@@ -48,18 +36,11 @@ const FormItem = styled(StringFormItem)`
   margin-bottom: 1rem;
 `
 
-const InfoText = styled.div`
-  display: flex;
-  justify-content: center;
-  p {
-    font-size: 0.8rem;
-    color: ${darkGray};
-  }
-
-  span {
-    color: ${primaryColor};
-    cursor: pointer;
-  }
+const BackButton = styled(TextButton)`
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  width: 100%;
+  text-align: center;
 `
 
 const ErrorWrapper = styled.div`
@@ -76,20 +57,17 @@ const ErrorWrapper = styled.div`
   }
 `
 
-const LoginForm = () => {
+const ResetPasswordForm = () => {
   const { actions, state } = useLoginServiceContext()
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
   const [inputFields, setInputFields] = React.useState({
-    name: '',
-    email: '',
-    password: ''
+    email: ''
   })
 
-  const invalidFields = (values: any) => !values.email || !values.password
+  const invalidFields = (values: any) => values.email.length < 3
 
   const { getFieldDecorator, validateFields, setFields } = useForm<{
     email: string
-    password: string
   }>()
 
   const onSubmit = async (e: React.FormEvent, login: Function) => {
@@ -107,7 +85,7 @@ const LoginForm = () => {
 
   const onCompletedMutation = (data: any) => {
     // Store the token in cookie
-    const { token } = state.signingUp ? data.signUp : data.login
+    const { token } = state.view === 'signup' ? data.signUp : data.login
 
     actions.login(token)
 
@@ -128,59 +106,19 @@ const LoginForm = () => {
     }
   }
 
-  const infoText = state.signingUp ? (
-    <p>
-      Already have an account?{' '}
-      <span onClick={() => actions.toSignUp(false)}>Login</span>
-    </p>
-  ) : (
-    <p>
-      Dont have an account yet?{' '}
-      <span onClick={() => actions.toSignUp()}>Sign up</span>
-    </p>
-  )
-
-  const buttonText = state.signingUp ? 'Sign Up' : 'Login'
-  const mutation = state.signingUp ? SIGN_UP : LOGIN
-
   return (
-    <Mutation
-      mutation={mutation}
-      onCompleted={onCompletedMutation}
-      onError={(error: any) => {
-        // If you want to send error to external service?
-        console.log(error)
-      }}
-    >
+    <Mutation mutation={LOGIN} onCompleted={onCompletedMutation}>
       {(login: any, { data, error, loading }: any) => {
         return (
           <LoginContainer>
             <Form onSubmit={e => onSubmit(e, login)}>
-              {state.signingUp && (
-                <FormItem
-                  label="Name"
-                  name="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  getFieldDecorator={getFieldDecorator}
-                  setFields={setFields}
-                  onChange={onChangeField}
-                />
-              )}
+              <h2>Reset your password</h2>
+              <p>Write your email and you will receive a password reset link</p>
               <FormItem
                 label="Email"
                 name="email"
                 type="text"
                 placeholder="Email address"
-                getFieldDecorator={getFieldDecorator}
-                setFields={setFields}
-                onChange={onChangeField}
-              />
-              <FormItem
-                label="Password"
-                name="password"
-                type="password"
-                placeholder="Password"
                 getFieldDecorator={getFieldDecorator}
                 setFields={setFields}
                 onChange={onChangeField}
@@ -191,11 +129,12 @@ const LoginForm = () => {
                 loading={loading}
                 disabled={!isPossibleValid}
               >
-                {buttonText}
+                Reset password
               </Button>
 
-              <InfoText>{infoText}</InfoText>
-
+              <BackButton onClick={() => actions.setView('login')}>
+                Send me back to the login screen
+              </BackButton>
               {error && (
                 <ErrorWrapper>
                   <p>{error.message}</p>
@@ -209,4 +148,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default ResetPasswordForm

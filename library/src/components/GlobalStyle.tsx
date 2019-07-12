@@ -22,6 +22,16 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: ${theme.black};
   }
+  h1,h2,h3 {
+    margin: 0;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    font-size: 0.8rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+  }
+  
 `
 
 export default GlobalStyle

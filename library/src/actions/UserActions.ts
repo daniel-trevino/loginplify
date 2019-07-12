@@ -2,7 +2,8 @@ import { types } from '../reducers/UserReducers'
 import {
   IUserState,
   IAction,
-  LoginServiceActions
+  LoginServiceActions,
+  IViews
 } from '../interfaces/User.interface'
 import { removeCookie, createTokenCookie } from '../utils/LoginUtils'
 
@@ -10,8 +11,8 @@ export const useActions = (
   state: IUserState,
   dispatch: (value: IAction) => void
 ): LoginServiceActions => {
-  function toSignUp(value: boolean = true) {
-    dispatch({ type: types.WANTS_TO_SIGNUP, payload: value })
+  function setView(value: IViews) {
+    dispatch({ type: types.SET_VIEW, payload: value })
   }
   function login(token: string) {
     createTokenCookie(token)
@@ -27,7 +28,7 @@ export const useActions = (
   }
 
   return {
-    toSignUp,
+    setView,
     login,
     logout,
     resetState

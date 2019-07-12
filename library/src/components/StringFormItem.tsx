@@ -12,6 +12,7 @@ interface IProps {
   setFields: any
   onChange?: Function
   ref?: any
+  noMargin?: boolean
 }
 
 const FormItem = styled.div`
@@ -37,7 +38,8 @@ const StringFormItem = (props: IProps) => {
     type,
     className,
     onChange,
-    ref
+    ref,
+    noMargin
   } = props
 
   return (
@@ -50,6 +52,7 @@ const StringFormItem = (props: IProps) => {
           type={type}
           onChange={onChange}
           ref={ref}
+          noMargin={noMargin}
         />
       )}
     </FormItem>

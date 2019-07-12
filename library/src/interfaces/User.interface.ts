@@ -5,20 +5,22 @@ export interface LoginServiceContext {
 }
 
 export interface LoginServiceActions {
-  toSignUp: (value?: boolean) => void
+  setView: (value: IViews) => void
   login: (token: string) => void
   logout: () => void
   resetState: () => void
 }
 
+export type IViews = 'login' | 'signup' | 'requestReset'
+
 export interface IUserState {
-  signingUp: boolean
+  view: IViews
   loggedIn: boolean
   token: string | null
 }
 
 enum ACTION_TYPE {
-  WANTS_TO_SIGNUP = 'WANTS_TO_SIGNUP',
+  SET_VIEW = 'SET_VIEW',
   SET_LOGGED_IN = 'SET_LOGGED_IN',
   SET_TOKEN = 'SET_TOKEN',
   RESET_STATE = 'RESET_STATE'

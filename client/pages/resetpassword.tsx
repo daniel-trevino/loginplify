@@ -39,7 +39,7 @@ const Verify = ({ router }: Props) => {
   const onSubmit = (e: any, resetPassword: any) => {
     e.preventDefault()
     const variables = { resetToken, password, confirmPassword }
-    console.log(variables)
+
     resetPassword({
       variables
     })

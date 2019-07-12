@@ -4,13 +4,13 @@ import { IUserState, ActionTypes, IAction } from '../interfaces/User.interface'
 const currentToken = Cookies.get('token')
 
 const initialState: IUserState = {
-  signingUp: false,
+  view: 'login',
   loggedIn: Boolean(currentToken) || false,
   token: currentToken
 }
 
 const types: ActionTypes = {
-  WANTS_TO_SIGNUP: 'WANTS_TO_SIGNUP',
+  SET_VIEW: 'SET_VIEW',
   SET_LOGGED_IN: 'SET_LOGGED_IN',
   SET_TOKEN: 'SET_TOKEN',
   RESET_STATE: 'RESET_STATE'
@@ -21,10 +21,10 @@ const reducer: React.Reducer<IUserState, IAction> = (
   action
 ) => {
   switch (action.type) {
-    case types.WANTS_TO_SIGNUP:
+    case types.SET_VIEW:
       return {
         ...state,
-        signingUp: action.payload
+        view: action.payload
       }
     case types.SET_LOGGED_IN:
       return {
@@ -39,7 +39,7 @@ const reducer: React.Reducer<IUserState, IAction> = (
     case types.RESET_STATE:
       return {
         ...state,
-        signingUp: initialState.signingUp
+        view: initialState.view
       }
 
     default:

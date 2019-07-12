@@ -8,6 +8,7 @@ interface IProps {
   type: 'text' | 'password' | 'number'
   onChange?: Function
   forwardedRef?: any
+  noMargin?: boolean
 }
 
 const InputComponent = styled.input`
@@ -26,10 +27,16 @@ const InputComponent = styled.input`
   &::placeholder {
     color: ${darkGray};
   }
+
+  ${(p: IProps) =>
+    p.noMargin &&
+    `
+    margin: 0;
+  `}
 `
 
 const Input = React.forwardRef((props: IProps, ref: any) => {
-  const { name, placeholder, type, onChange } = props
+  const { name, placeholder, type, onChange, noMargin = false } = props
   const inputEl: any = React.useRef(null)
 
   const [value, setValue] = React.useState()
@@ -72,6 +79,7 @@ const Input = React.forwardRef((props: IProps, ref: any) => {
       type={type}
       name={name}
       onChange={onChangeLocal}
+      noMargin={noMargin}
     />
   )
 })

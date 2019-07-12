@@ -2,7 +2,7 @@ import * as React from 'react'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 
-import Login from './pages/Login'
+import LoginView from './pages/LoginView'
 import { UserContext } from './context/UserContext'
 import { SettingsContext } from './context/SettingsContext'
 
@@ -23,7 +23,7 @@ const LoginController = (props: any) => {
     [state.loggedIn]
   )
 
-  const loginPage = React.useMemo(() => <Login />, [state.loggedIn])
+  const loginPage = React.useMemo(() => <LoginView />, [state.loggedIn])
 
   if (state.loggedIn) {
     return <ApolloProvider client={client}>{children}</ApolloProvider>

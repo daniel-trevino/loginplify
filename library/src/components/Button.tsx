@@ -8,7 +8,7 @@ interface IProps {
   disabled?: boolean
   loading?: boolean
   children: React.ReactNode
-  type?: 'button' | 'reset' | 'submit'
+  type: 'button' | 'reset' | 'submit'
 }
 
 const ButtonComponent = styled.button`
