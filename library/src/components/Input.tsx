@@ -13,7 +13,6 @@ interface IProps {
 const InputComponent = styled.input`
   position: relative;
   display: block;
-  width: 100%;
   margin-bottom: 20px;
   padding: 10px 20px;
   border: 1px solid ${(props: any) => props.theme.bordercolor};

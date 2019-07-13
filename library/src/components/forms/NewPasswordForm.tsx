@@ -98,7 +98,7 @@ const NewPasswordForm = (props: IProps) => {
     resetPassword({
       variables: {
         ...values,
-        token
+        resetToken: token
       }
     })
   }
