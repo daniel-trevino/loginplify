@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { primaryColor } from '../utils/vars'
 
 interface IProps {
   className?: string
@@ -10,7 +9,7 @@ interface IProps {
 }
 
 const TextButtonComponent = styled.div`
-  color: ${primaryColor};
+  color: ${(props: any) => props.theme.primaryColor};
   cursor: pointer;
   &:hover {
     opacity: 0.8;

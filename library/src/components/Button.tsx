@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { gutter, primaryColor, darkGray, lightGray } from '../utils/vars'
 import Balls from './Balls'
+import { color } from '../utils/vars'
 
 interface IProps {
   className?: string
@@ -43,8 +43,8 @@ const ButtonComponent = styled.button`
   width: 100%;
   padding: 0.8rem 0;
   position: relative;
-  margin: ${gutter} 0;
-  background: ${primaryColor};
+  margin: 1rem 0;
+  background: ${(props: any) => props.theme.primaryColor || color};
   text-align: center;
   font-weight: 700;
   color: #fff;
@@ -61,8 +61,8 @@ const ButtonComponent = styled.button`
     p.disabled &&
     `
     pointer-events: none;
-    background-color: ${lightGray};
-    color: ${darkGray};
+    background-color: ${p.theme.lightGray};
+    color: ${p.theme.darkGray};
   `}
 `
 

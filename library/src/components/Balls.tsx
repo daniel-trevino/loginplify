@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { primaryColor } from '../utils/vars'
+import { color } from '../utils/vars'
 
 const leftSwingAnimation = keyframes`
   50%,
@@ -27,10 +27,12 @@ const BallsWrapper = styled.div`
 `
 
 const Ball = styled.div`
-  width: 0.8em;
-  height: 0.8em;
+  width: ${(props: any) =>
+    props.theme.fontSize ? props.theme.fontSize.xs : '0.8rem'};
+  height: ${(props: any) =>
+    props.theme.fontSize ? props.theme.fontSize.xs : '0.8rem'};
   border-radius: 50%;
-  background-color: ${primaryColor};
+  background-color: ${(props: any) => props.theme.primaryColor || color};
 
   &:nth-of-type(1) {
     transform: translateX(-100%);

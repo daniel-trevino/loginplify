@@ -6,12 +6,6 @@ import StringFormItem from '../StringFormItem'
 import { useLoginServiceContext } from '../../context/UserContext'
 import styled from 'styled-components'
 import Button from '../Button'
-import {
-  darkGray,
-  primaryColor,
-  dangerColor,
-  dangerBorder
-} from '../../utils/vars'
 import TextButton from '../../components/TextButton'
 
 const LOGIN = gql`
@@ -49,39 +43,37 @@ const InfoText = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-
-  p {
-    color: ${darkGray};
-  }
+  color: ${(props: any) => props.theme.darkGray};
+  font-size: ${(props: any) => props.theme.fontSize.xs};
 
   span {
-    color: ${primaryColor};
+    color: ${(props: any) => props.theme.primaryColor};
     cursor: pointer;
   }
 `
 
 const ErrorWrapper = styled.div`
-  background-color: ${dangerColor};
+  background-color: ${(props: any) => props.theme.dangerColor};
   opacity: 1;
   transition-duration: 0.3s;
-  border: 1px solid ${dangerBorder};
+  border: 1px solid ${(props: any) => props.theme.dangerBorder};
 
   p {
     text-align: center;
     padding: 0.3rem;
-    font-size: 0.8rem;
+    font-size: ${(props: any) => props.theme.fontSize.xs};
     margin: 0;
   }
 `
 
 const ForgotPasswordButton = styled(TextButton)`
-  color: ${darkGray};
+  color: ${(props: any) => props.theme.darkGray};
   margin: 0;
-  font-size: 0.8rem;
+  font-size: ${(props: any) => props.theme.fontSize.xs};
 `
 
 const ActionButton = styled(Button)`
-  margin-top: 1.3rem;
+  margin-top: ${(props: any) => props.theme.fontSize.md};
 `
 
 const LoginForm = () => {
@@ -139,25 +131,25 @@ const LoginForm = () => {
   }
 
   const infoText = signUpView ? (
-    <p>
-      Already have an account?{' '}
+    <>
+      Already have an account?
       <TextButton
         onClick={() => actions.setView('login')}
-        style={{ display: 'inline-flex' }}
+        style={{ display: 'inline-flex', marginLeft: '0.3rem' }}
       >
         Login
       </TextButton>
-    </p>
+    </>
   ) : (
-    <p>
-      Dont have an account yet?{' '}
+    <>
+      Dont have an account yet?
       <TextButton
         onClick={() => actions.setView('signup')}
-        style={{ display: 'inline-flex' }}
+        style={{ display: 'inline-flex', marginLeft: '0.3rem' }}
       >
         Sign up
       </TextButton>
-    </p>
+    </>
   )
 
   const titleText = signUpView ? 'Sign up' : 'Login'

@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-import theme from '../utils/theme'
-import { mainFont, fontColor } from '../utils/vars'
+import { fontColor, mainFont } from '../utils/vars'
 
 const GlobalStyle = createGlobalStyle`
   @import url("https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap"),
@@ -20,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
   }
   a {
     text-decoration: none;
-    color: ${theme.black};
+    color: ${fontColor};
   }
   h1,h2,h3 {
     margin: 0;
@@ -31,7 +30,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     margin-bottom: 0.5rem;
   }
-  
 `
 
 export default GlobalStyle

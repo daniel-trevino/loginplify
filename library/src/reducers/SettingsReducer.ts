@@ -3,12 +3,21 @@ import {
   ActionTypes,
   IAction
 } from '../interfaces/Settings.interface'
+import theme from '../utils/theme'
 
 const types: ActionTypes = {
   INIT: 'INIT'
 }
 
-const reducer: React.Reducer<ISettingsState, IAction> = (state, action) => {
+const initialState: ISettingsState = {
+  endpoint: null,
+  theme: theme
+}
+
+const reducer: React.Reducer<ISettingsState, IAction> = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
     case types.INIT:
       return {
@@ -21,4 +30,4 @@ const reducer: React.Reducer<ISettingsState, IAction> = (state, action) => {
   }
 }
 
-export { types, reducer }
+export { initialState, types, reducer }

@@ -7,7 +7,6 @@ import { useLoginServiceContext } from '../../context/UserContext'
 import styled from 'styled-components'
 import Button from '../Button'
 import TextButton from '../TextButton'
-import { dangerColor, dangerBorder } from '../../utils/vars'
 import SuccessMessage from '../SuccessMessage'
 
 const REQUEST_PASSWORD = gql`
@@ -37,21 +36,21 @@ const FormItem = styled(StringFormItem)`
 
 const BackButton = styled(TextButton)`
   margin-top: 1rem;
-  font-size: 0.8rem;
+  font-size: ${(props: any) => props.theme.fontSize.xs};
   width: 100%;
   text-align: center;
 `
 
 const ErrorWrapper = styled.div`
-  background-color: ${dangerColor};
+  background-color: ${(props: any) => props.theme.dangerColor};
   opacity: 1;
   transition-duration: 0.3s;
-  border: 1px solid ${dangerBorder};
+  border: 1px solid ${(props: any) => props.theme.dangerBorder};
 
   p {
     text-align: center;
     padding: 0.3rem;
-    font-size: 0.8rem;
+    font-size: ${(props: any) => props.theme.fontSize.xs};
     margin: 0;
   }
 `

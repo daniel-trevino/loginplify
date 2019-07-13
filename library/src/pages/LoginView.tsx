@@ -1,9 +1,10 @@
 import * as React from 'react'
 import LoginForm from '../components/forms/LoginForm'
 import ResetPasswordForm from '../components/forms/ResetPasswordForm'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import GlobalStyle from '../components/GlobalStyle'
 import { useLoginServiceContext } from '../context/UserContext'
+import { useSettingsContext } from '../context/SettingsContext'
 
 const PageWrapper = styled.div`
   padding: 0 4%;
@@ -16,6 +17,7 @@ const PageWrapper = styled.div`
 
 const LoginView = () => {
   const { state } = useLoginServiceContext()
+  const settingsContext = useSettingsContext()
 
   const renderView = () => {
     switch (state.view) {
@@ -28,10 +30,16 @@ const LoginView = () => {
         return null
     }
   }
+
   return (
     <>
-      <GlobalStyle />
-      <PageWrapper>{renderView()}</PageWrapper>
+      <ThemeProvider theme={settingsContext.state.theme}>
+        <GlobalStyle />
+      </ThemeProvider>
+
+      <ThemeProvider theme={settingsContext.state.theme}>
+        <PageWrapper>{renderView()}</PageWrapper>
+      </ThemeProvider>
     </>
   )
 }

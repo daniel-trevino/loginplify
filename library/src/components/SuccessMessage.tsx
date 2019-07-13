@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import Confetti from 'react-dom-confetti'
-import { primaryColor } from '../utils/vars'
 
 interface IProps {
   title: string
@@ -17,7 +16,7 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.h1`
-  color: ${primaryColor};
+  color: ${(props: any) => props.theme.primaryColor};
   font-weight: 800;
   display: block;
   margin-bottom: 0.5rem;
