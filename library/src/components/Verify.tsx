@@ -14,15 +14,16 @@ export const VERIFY_USER = gql`
   }
 `
 
-const TriggerVerify = (props: any) => {
+const TriggerVerify = (props: any): any => {
   React.useEffect(() => {
     props.verifyUser()
   }, [])
 
-  return props.children
+  return null
 }
 
 const Verify = (props: Props) => {
+  const [requestSent, setRequestSent] = React.useState(false)
   const { token, trigggerVerify = true } = props
 
   if (!token) {
@@ -39,17 +40,25 @@ const Verify = (props: Props) => {
     </Message>
   )
 
+  const onCompletedMutation = (data: any) => {
+    setRequestSent(true)
+  }
+
+  // This is to show how it would look with verification
+  if (!trigggerVerify || requestSent) {
+    return Success
+  }
+
   return (
-    <Mutation mutation={VERIFY_USER} variables={{ token }}>
+    <Mutation
+      mutation={VERIFY_USER}
+      variables={{ token }}
+      onCompleted={onCompletedMutation}
+    >
       {(verifyUser: any, { error }: any) => {
         if (error) return <Message title="Error">{error.message}</Message>
 
-        // This is to show how it would look with verification
-        if (!trigggerVerify) {
-          return Success
-        }
-
-        return <TriggerVerify verifyUser={verifyUser}>{Success}</TriggerVerify>
+        return <TriggerVerify verifyUser={verifyUser} />
       }}
     </Mutation>
   )
