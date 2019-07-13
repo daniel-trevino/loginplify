@@ -1,8 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import Confetti from 'react-dom-confetti'
+import { color } from '../utils/vars'
 
 interface IProps {
+  success?: boolean
   title: string
   children: React.ReactNode
 }
@@ -16,9 +18,10 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.h1`
-  color: ${(props: any) => props.theme.primaryColor};
+  color: ${(props: any) => props.theme.primaryColor || color};
   font-weight: 800;
   display: block;
+  margin-top: 0;
   margin-bottom: 0.5rem;
 `
 
@@ -36,11 +39,13 @@ const config = {
 }
 
 const SuccessMessage = (props: IProps) => {
-  const { title, children } = props
+  const { title, children, success = false } = props
   const [animationTimeout, setAnimationTimeout] = React.useState()
   const [confetti, setConfetti] = React.useState(false)
 
   React.useEffect(() => {
+    if (!success) return null
+
     setAnimationTimeout(
       setTimeout(() => {
         if (!confetti) {

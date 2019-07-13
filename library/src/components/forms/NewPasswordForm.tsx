@@ -3,19 +3,32 @@ import useForm from 'rc-form-hooks'
 import { Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import StringFormItem from '../StringFormItem'
-import { useLoginServiceContext } from '../../context/UserContext'
 import styled from 'styled-components'
 import Button from '../Button'
 import TextButton from '../TextButton'
 import Message from '../Message'
 
-const REQUEST_PASSWORD = gql`
-  mutation REQUEST_PASSWORD($email: String!) {
-    requestReset(email: $email)
+interface IProps {
+  token: string
+}
+
+export const RESET_PASSWORD = gql`
+  mutation RESET_PASSWORD(
+    $resetToken: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    resetPassword(
+      resetToken: $resetToken
+      password: $password
+      confirmPassword: $confirmPassword
+    ) {
+      token
+    }
   }
 `
 
-const LoginContainer = styled.div`
+const Container = styled.div`
   display: block;
   max-width: 600px;
   width: 100%;
@@ -36,7 +49,8 @@ const FormItem = styled(StringFormItem)`
 
 const BackButton = styled(TextButton)`
   margin-top: 1rem;
-  font-size: ${(props: any) => props.theme.fontSize.xs};
+  font-size: ${(props: any) =>
+    props.theme.fontSize ? props.theme.fontSize.xs : '0.8rem'};
   width: 100%;
   text-align: center;
 `
@@ -50,26 +64,30 @@ const ErrorWrapper = styled.div`
   p {
     text-align: center;
     padding: 0.3rem;
-    font-size: ${(props: any) => props.theme.fontSize.xs};
+    font-size: ${(props: any) =>
+      props.theme.fontSize ? props.theme.fontSize.xs : '0.8rem'};
     margin: 0;
   }
 `
 
-const ResetPasswordForm = () => {
-  const { actions } = useLoginServiceContext()
+const NewPasswordPage = (props: IProps) => {
+  const { token } = props
   const [requestSent, setRequestSent] = React.useState(false)
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
   const [inputFields, setInputFields] = React.useState({
-    email: ''
+    password: '',
+    confirmPassword: ''
   })
 
-  const invalidFields = (values: any) => values.email.length < 3
+  const invalidFields = (values: any) =>
+    !values.password || !values.confirmPassword
 
   const { getFieldDecorator, validateFields, setFields } = useForm<{
-    email: string
+    password: string
+    confirmPassword: string
   }>()
 
-  const onSubmit = async (e: React.FormEvent, requestReset: Function) => {
+  const onSubmit = async (e: React.FormEvent, resetPassword: Function) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -77,7 +95,12 @@ const ResetPasswordForm = () => {
 
     if (invalidFields(values)) return
 
-    requestReset({ variables: values })
+    resetPassword({
+      variables: {
+        ...values,
+        token
+      }
+    })
   }
 
   const onCompletedMutation = (data: any) => {
@@ -99,13 +122,13 @@ const ResetPasswordForm = () => {
   }
 
   return (
-    <Mutation mutation={REQUEST_PASSWORD} onCompleted={onCompletedMutation}>
-      {(requestReset: any, { data, error, loading }: any) => {
+    <Mutation mutation={RESET_PASSWORD} onCompleted={onCompletedMutation}>
+      {(resetPassword: any, { data, error, loading }: any) => {
         if (requestSent) {
           return (
-            <Message title="Success" success>
-              <p>The reset password email has been sent!</p>
-              <BackButton onClick={() => actions.setView('login')}>
+            <Message title="Password has been updated" success>
+              <p>You may login with your new password</p>
+              <BackButton onClick={() => alert('redirect to page')}>
                 Go back to login screen
               </BackButton>
             </Message>
@@ -113,15 +136,24 @@ const ResetPasswordForm = () => {
         }
 
         return (
-          <LoginContainer>
-            <Form onSubmit={e => onSubmit(e, requestReset)}>
-              <h2>Reset your password</h2>
-              <p>Write your email and you will receive a password reset link</p>
+          <Container>
+            <Form onSubmit={e => onSubmit(e, resetPassword)}>
+              <h2>Create new password</h2>
+              <p>Write a new password to your account</p>
               <FormItem
-                label="Email"
-                name="email"
-                type="text"
-                placeholder="Email address"
+                label="New password"
+                name="password"
+                type="password"
+                placeholder="New password"
+                getFieldDecorator={getFieldDecorator}
+                setFields={setFields}
+                onChange={onChangeField}
+              />
+              <FormItem
+                label="Confirm new password"
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm new password"
                 getFieldDecorator={getFieldDecorator}
                 setFields={setFields}
                 onChange={onChangeField}
@@ -135,20 +167,17 @@ const ResetPasswordForm = () => {
                 Reset password
               </Button>
 
-              <BackButton onClick={() => actions.setView('login')}>
-                Send me back to the login screen
-              </BackButton>
               {error && (
                 <ErrorWrapper>
                   <p>{error.message}</p>
                 </ErrorWrapper>
               )}
             </Form>
-          </LoginContainer>
+          </Container>
         )
       }}
     </Mutation>
   )
 }
 
-export default ResetPasswordForm
+export default NewPasswordPage

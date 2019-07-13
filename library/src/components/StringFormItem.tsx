@@ -22,7 +22,8 @@ const FormItem = styled.div`
 `
 
 const Label = styled.label`
-  font-size: ${(props: any) => props.theme.fontSize.xs};
+  font-size: ${(props: any) =>
+    props.theme.fontSize ? props.theme.fontSize.xs : '0.8rem'};
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
