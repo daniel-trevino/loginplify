@@ -1,48 +1,20 @@
 import * as React from 'react'
-import { withRouter } from 'next/router'
 import get from 'lodash/get'
-import gql from 'graphql-tag'
-import { Mutation } from 'react-apollo'
+import { withRouter } from 'next/router'
+import { VerifyPage } from 'loginplify'
 
 type Props = {
-  router: {
-    token: string
-  }
+  router: any
 }
 
-export const VERIFY_USER = gql`
-  mutation VERIFY_USER($token: String!) {
-    verify(token: $token)
-  }
-`
-
-const TriggerVerify = (props: any) => {
-  React.useEffect(() => {
-    props.verifyUser()
-  }, [])
-
-  return props.children
-}
-
-const Verify = ({ router }: Props) => {
-  const token = get(router, 'query.token')
-
-  if (!token) {
-    return <div>Invalid token</div>
-  }
+const Verify = (props: Props) => {
+  const verifyToken = get(props.router, 'query.token')
 
   return (
-    <Mutation mutation={VERIFY_USER} variables={{ token }}>
-      {(verifyUser: any, { error }: any) => {
-        if (error) return <p>{error.message}</p>
-
-        return (
-          <TriggerVerify verifyUser={verifyUser}>
-            Your account has been verified. You may close this page now.
-          </TriggerVerify>
-        )
-      }}
-    </Mutation>
+    <VerifyPage
+      token={verifyToken}
+      endpoint="https://loginservice.danieltrevino.se/graphql"
+    />
   )
 }
 

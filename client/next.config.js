@@ -1,11 +1,10 @@
 // next.config.js
 // Reference: https://github.com/zeit/now-builders/blob/master/errors/now-next-legacy-mode.md
 const webpack = require('webpack')
-const withTypescript = require('@zeit/next-typescript')
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
-module.exports = withTypescript({
+module.exports = {
   lessLoaderOptions: {
     javascriptEnabled: true
   },
@@ -26,4 +25,4 @@ module.exports = withTypescript({
       ? 'https://moneytrack-gateway-24yqcvk7o.now.sh/graphql'
       : process.env.ENDPOINT
   }
-})
+}

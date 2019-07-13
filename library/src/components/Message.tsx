@@ -38,7 +38,7 @@ const config = {
   colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a']
 }
 
-const SuccessMessage = (props: IProps) => {
+const Message = (props: IProps) => {
   const { title, children, success = false } = props
   const [animationTimeout, setAnimationTimeout] = React.useState()
   const [confetti, setConfetti] = React.useState(false)
@@ -69,4 +69,4 @@ const SuccessMessage = (props: IProps) => {
   )
 }
 
-export default SuccessMessage
+export default Message

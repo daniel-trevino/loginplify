@@ -70,7 +70,7 @@ const ErrorWrapper = styled.div`
   }
 `
 
-const NewPasswordPage = (props: IProps) => {
+const NewPasswordForm = (props: IProps) => {
   const { token } = props
   const [requestSent, setRequestSent] = React.useState(false)
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
@@ -119,6 +119,14 @@ const NewPasswordPage = (props: IProps) => {
     } else {
       setIsPossibleValid(false)
     }
+  }
+
+  if (!token) {
+    return (
+      <Message title="Invalid token">
+        The token you have provided is invalid
+      </Message>
+    )
   }
 
   return (
@@ -180,4 +188,4 @@ const NewPasswordPage = (props: IProps) => {
   )
 }
 
-export default NewPasswordPage
+export default NewPasswordForm
