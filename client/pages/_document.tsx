@@ -16,11 +16,6 @@ export default class MyDocument extends Document<Props> {
           sheet.collectStyles(<App {...props} />)
       })
 
-    // Get language cookie - TODO -> fetch cookie on SSR to avoid double rendering
-    // const cookies = new Cookies(ctx.req, ctx.res)
-    // const languageCookie = cookies.get('currentLanguage', { signed: true })
-    // console.log('language cookie', languageCookie)
-
     const initialProps: any = await Document.getInitialProps(ctx)
     return {
       ...initialProps,
