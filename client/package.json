@@ -20,7 +20,7 @@
     "graphql": "^14.3.1",
     "graphql-tag": "^2.10.1",
     "lodash": "^4.17.11",
-    "loginplify": "0.0.7",
+    "loginplify": "0.0.8",
     "next": "^9.0.1",
     "next-with-apollo": "^3.4.0",
     "react": "^16.8.6",
