@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react'
 import { withKnobs } from '@storybook/addon-knobs'
 import React from 'react'
 import Button from '../src/components/Button'
+import TextButton from '../src/components/TextButton'
 
 const stories = storiesOf('Button', module)
 
@@ -15,3 +16,4 @@ stories.add('Loading', () => (
     Click
   </Button>
 ))
+stories.add('Text button', () => <TextButton>Click</TextButton>)

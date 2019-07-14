@@ -28,7 +28,7 @@ const TextButton = (props: IProps) => {
           {children}
         </a>
       ) : (
-        { children }
+        children
       )}
     </TextButtonComponent>
   )
