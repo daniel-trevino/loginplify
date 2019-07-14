@@ -55,7 +55,7 @@ const Message = (props: IProps) => {
     )
 
     return () => {
-      clearTimeout(animationTimeout)
+      return clearTimeout(animationTimeout)
     }
   }, [])
 

@@ -10,6 +10,9 @@ import Message from '../Message'
 
 interface IProps {
   token: string
+  backButtonText?: string
+  href?: string
+  target?: '_blank' | '_self' | '_parent' | '_top'
 }
 
 export const RESET_PASSWORD = gql`
@@ -71,7 +74,7 @@ const ErrorWrapper = styled.div`
 `
 
 const NewPasswordForm = (props: IProps) => {
-  const { token } = props
+  const { token, backButtonText, href, target } = props
   const [requestSent, setRequestSent] = React.useState(false)
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
   const [inputFields, setInputFields] = React.useState({
@@ -136,9 +139,11 @@ const NewPasswordForm = (props: IProps) => {
           return (
             <Message title="Password has been updated" success>
               <p>You may login with your new password</p>
-              <BackButton onClick={() => alert('redirect to page')}>
-                Go back to login screen
-              </BackButton>
+              {backButtonText && (
+                <BackButton href={href} target={target}>
+                  {backButtonText}
+                </BackButton>
+              )}
             </Message>
           )
         }

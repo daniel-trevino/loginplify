@@ -4,8 +4,10 @@ import styled from 'styled-components'
 interface IProps {
   className?: string
   children: React.ReactNode
-  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   style?: any
+  href?: string
+  target?: string
 }
 
 const TextButtonComponent = styled.div`
@@ -17,11 +19,17 @@ const TextButtonComponent = styled.div`
 `
 
 const TextButton = (props: IProps) => {
-  const { children, className, onClick, style } = props
+  const { children, className, onClick, style, href, target = '_self' } = props
 
   return (
     <TextButtonComponent className={className} onClick={onClick} style={style}>
-      {children}
+      {href ? (
+        <a href={href} target={target} rel="noopener noreferrer">
+          {children}
+        </a>
+      ) : (
+        { children }
+      )}
     </TextButtonComponent>
   )
 }
