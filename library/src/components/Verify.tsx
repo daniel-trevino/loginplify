@@ -2,6 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import Message from './Message'
+import Balls from './Balls'
 
 type Props = {
   token: string
@@ -19,7 +20,7 @@ const TriggerVerify = (props: any): any => {
     props.verifyUser()
   }, [])
 
-  return <h1>Loading...</h1>
+  return <Balls />
 }
 
 const Verify = (props: Props) => {
