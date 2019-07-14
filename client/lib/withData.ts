@@ -1,9 +1,9 @@
 import withApollo from 'next-with-apollo'
 import ApolloClient from 'apollo-boost'
-import { getHostname, cleanHostname } from '../utils/env'
+import { cleanHostname } from '../utils/env'
 
 function createClient({ headers }: any) {
-  const host = getHostname(headers)
+  const host = (headers && headers.host) || 'localhost'
 
   const ENDPOINT =
     process.env.NODE_ENV === 'development'

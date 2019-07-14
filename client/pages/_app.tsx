@@ -2,6 +2,7 @@ import App, { Container } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 import withData from '../lib/withData'
+import { getHostname } from '../utils/env'
 
 class MyApp extends App<any> {
   static async getInitialProps({ Component, ctx }: any) {
@@ -16,16 +17,18 @@ class MyApp extends App<any> {
     // this exposes the query to the user
     pageProps.query = ctx.query
 
-    return { pageProps }
+    const hostname = getHostname(ctx.req)
+
+    return { pageProps, hostname }
   }
   render() {
-    const { Component, apollo, pageProps } = this.props
+    const { Component, apollo, pageProps, hostname } = this.props
 
     return (
       <Container>
         <ApolloProvider client={apollo}>
           <ApolloHooksProvider client={apollo}>
-            <Component {...pageProps} />
+            <Component {...pageProps} hostname={hostname} />
           </ApolloHooksProvider>
         </ApolloProvider>
       </Container>

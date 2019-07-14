@@ -1,6 +1,6 @@
 const isBrowser = () => typeof window !== 'undefined'
 
-export const getHostname = (headers: any) => {
+export const getHostname = (req: any) => {
   if (process.env.HOSTNAME) {
     return cleanHostname(process.env.HOSTNAME)
   }
@@ -10,9 +10,15 @@ export const getHostname = (headers: any) => {
     return host && cleanHostname(host)
   }
 
-  if (headers) {
-    return headers.host
+  if (req) {
+    if (!req.headers) {
+      throw new Error('Headers missing from `req`')
+    }
+
+    return cleanHostname(req.headers.host)
   }
+
+  throw new Error('Missing param `req`')
 }
 
 export const cleanHostname = (hostname: string) => {
@@ -29,4 +35,12 @@ export const cleanHostname = (hostname: string) => {
   }
 
   return hostname
+}
+
+export const getEndpoint = (hostname: string) => {
+  if (hostname === 'localhost') {
+    return `https://${hostname}:3000/graphql`
+  }
+
+  return `https://loginservice.${hostname}/graphql`
 }
