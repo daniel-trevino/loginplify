@@ -19,7 +19,7 @@ const TriggerVerify = (props: any): any => {
     props.verifyUser()
   }, [])
 
-  return
+  return <h1>Loading...</h1>
 }
 
 const Verify = (props: Props) => {

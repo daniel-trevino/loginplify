@@ -39,7 +39,7 @@ export const cleanHostname = (hostname: string) => {
 
 export const getEndpoint = (hostname: string) => {
   if (hostname === 'localhost') {
-    return `https://${hostname}:3000/graphql`
+    return `http://${hostname}:3000/graphql`
   }
 
   return `https://loginservice.${hostname}/graphql`

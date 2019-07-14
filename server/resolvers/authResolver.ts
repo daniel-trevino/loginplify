@@ -75,6 +75,44 @@ export const authMutations = {
 
     return 'Reset password email sent'
   },
+  requestVerify: async (_: any, { email }: { email: string }, ctx: any) => {
+    // Check if there is a user with that email
+    const user = await ctx.models.User.findOne({ email })
+
+    if (!user) {
+      throw new AuthenticationError(`No such user found for email: ${email}`)
+    }
+
+    if (user.verified) {
+      throw new AuthenticationError('This user has been verified already')
+    }
+
+    // Set a reset token and expiry on that user
+    const resetToken = await createRandomToken()
+
+    // Update user adding the reset token and expiry
+    const requestingUser = await ctx.models.User.updateOne(
+      {
+        _id: user._id
+      },
+      {
+        ...user._doc,
+        verifyToken: resetToken.randomToken,
+        verifyTokenExpiry: resetToken.randomTokenExpiry
+      },
+      { upsert: true }
+    )
+
+    if (!requestingUser) {
+      throw new AuthenticationError('Something went really wrong')
+    }
+
+    // Send reset password email not waiting for it since it might delay the sign up process.
+    const host = ctx.req.get('host')
+    await sendConfirmationEmail(host, resetToken.randomToken, email)
+
+    return 'Verification email sent'
+  },
   resetPassword: async (_: any, args: any, ctx: any) => {
     // Check if the passwords match
     if (args.password !== args.confirmPassword) {
@@ -149,8 +187,7 @@ export const authMutations = {
     const token = jwt.sign({ userID: user._id }, APP_SECRET)
 
     // Send confirmation email, not waiting for it since it might delay the sign up process.
-    const host = ctx.req.get('host')
-    await sendConfirmationEmail(host, generatedToken.randomToken, email)
+    await authMutations.requestVerify(_, args, ctx)
 
     // 4. Return the user
     return {
