@@ -1,2 +1,4 @@
 client/.next
 node_modules
+.circleci
+.vscode
