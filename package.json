@@ -1,11 +1,12 @@
 {
-  "name": "login-service",
+  "name": "loginplify-repository",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "private": true,
   "scripts": {
-    "now:deploy": "now -e MONGO_DATABASE_URL=@login-service-mongodb -e APP_SECRET=@app-secret"
+    "now:deploy": "now -e MONGO_DATABASE_URL=@login-service-mongodb -e APP_SECRET=@app-secret",
+    "deployservice": "node scripts/deployToNow.js"
   },
   "workspaces": [
     "server",
@@ -15,5 +16,8 @@
   "author": "Daniel Treviño",
   "license": "MIT",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/dashify": "^1.0.0",
+    "dashify": "^2.0.0"
+  }
 }
