@@ -11,7 +11,7 @@ async function connectToDb() {
       })
       console.log(`Connected to mongo at ${MONGO_DATABASE_URL}`)
     } catch (e) {
-      console.log('erorr', e)
+      console.log('error', e)
     }
   }
 }
