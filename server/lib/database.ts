@@ -9,8 +9,10 @@ async function connectToDb() {
       client = await mongoose.connect(MONGO_DATABASE_URL, {
         useNewUrlParser: true
       })
+      // tslint:disable-next-line:no-console
       console.log(`Connected to mongo at ${MONGO_DATABASE_URL}`)
     } catch (e) {
+      // tslint:disable-next-line:no-console
       console.log('error', e)
     }
   }
