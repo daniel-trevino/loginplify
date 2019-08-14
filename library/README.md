@@ -1,5 +1,7 @@
 ## Getting Started
 
+NOTE: Please make sure you have deployed your [Loginplify server](https://github.com/danielivert/loginplify) before using this component library
+
 ### Installation
 
 ```
