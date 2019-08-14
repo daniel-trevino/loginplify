@@ -23,13 +23,14 @@ The goal of this project is to provide a modern and easy to integrate login serv
 - [x] Serverless GraphQL server
 - [x] Serverless mongoose with express
 - [x] Mutations
-      _ [x] signUp
-      _ [x] login
+  - [x] signUp
+  - [x] login
   - [x] verify
-        _ [x] requestVerify
-        _ [x] requestRest
+  - [x] requestVerify
+  - [x] requestRest
   - [x] resetPassword
-- [x] Queries \* [x] me
+- [x] Queries
+  - [x] me
   - [x] getUsers
 - [x] Handle multiple permissions
 - [ ] Send permissions array on the token
@@ -41,11 +42,12 @@ The goal of this project is to provide a modern and easy to integrate login serv
 - [x] Add storybook
 - [x] Custom theme color
 - [x] Components
-      _ [x] Verification page
-      _ [x] Change password page - [ ] Protected component (instead of HOC)
+  - [x] Verification page
+  - [x] Change password page
   - [x] withAuthenticator HOC
+  - [ ] Protected component (instead of HOC)
 - [x] Expose state in a hook `useLoginServiceContext`
-- [ ] Better way to initialize the endpoint once in the application
+- [ ] Better way to initialize the endpoint just once in the application
 - [ ] Update to react-apollo 3.X.X
 
 ## Folder structure and development
@@ -67,7 +69,7 @@ The GraphQL playground will be available on `http://localhost:3000`
 
 ```js
 {
-  mongodb: 'mongodb+srv://test:test@test.mongodb.net/',
+  mongodb: 'mongodb+srv://prod:prod@prod.mongodb.net/',
   emailHost: 'pop.gmail.com',
   emailUser: 'mygmail@gmail.com',
   emailPassword: 'gmailPassword',
@@ -80,67 +82,6 @@ The GraphQL playground will be available on `http://localhost:3000`
 
 4. Run `npm run deployservice`
 
-## Client - Protect a page using
+## Implement in a React application
 
-```js
-import * as React from 'react'
-import withAuthenticator from '../../components/withAuthenticator'
-
-const settings = {
-  endpoint: 'https://loginservice.mydomain.se/graphql'
-}
-
-const ProtectedPage = () => {
-  return (
-    <div>
-      <h1>This is private content</h1>
-    </div>
-  )
-}
-
-export default withAuthenticator(ProtectedPage, settings)
-```
-
-## Generate Now.sh secret environmental variables
-
-- `@login-service-mongodb`
-- `@login-service-email-host`
-- `@login-service-email-user`
-- `@login-service-email-password`
-- `@login-service-email-sender`
-- `@login-service-app-secret`
-
-Examples of the commands
-
-```
-now secret add login-service-mongodb mongodb+srv://test:test@test.mongodb.net/
-now secret add login-service-email-host pop.gmail.com
-now secret add login-service-email-user mygmail@gmail.com
-now secret add login-service-email-password gmailPassword
-now secret add login-service-email-sender no-reply@gmail.com
-now secret add login-service-app-secret theSecretString
-```
-
-## 🚀 Deploy to Now.sh
-
-Assuming you have already forked this repository:
-
-1. Before deploying this to _Now.sh_ you need to first create secret environmental variables.
-
-2. Go to `now.json` and change the alias of your application
-
-3. Run the following command:
-
-```
-  now --target production
-```
-
-## 🚀 Deployment to Now with CircleCI
-
-Assuming you have already forked this repository:
-
-1. Before deploying this to circle CI you need to first create secret environmental variables on _Now.sh_
-
-2. Then you have to generate an auth token in _Now.sh_ that will be configured on the Circle CI pipeline.
-
-3. Now you can create a new CircleCI project, link it with your repository where you forked this one, and run the pipeline.
+Please refer to the documentation in the [Loginplify component library](https://github.com/danielivert/login-service/tree/master/library)
