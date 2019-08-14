@@ -1,15 +1,21 @@
-import * as mongoose from 'mongoose'
+import mongoose from 'mongoose'
 import { MONGO_DATABASE_URL } from '../utils/constants'
 
-// Save mongose promise
-// tslint:disable-next-line:no-var-requires
-require('mongoose').Promise = global.Promise
+let client: any = null
 
-mongoose.connect(MONGO_DATABASE_URL, { useNewUrlParser: true })
+async function connectToDb() {
+  if (!client) {
+    try {
+      client = await mongoose.connect(MONGO_DATABASE_URL, {
+        useNewUrlParser: true
+      })
+      console.log(`Connected to mongo at ${MONGO_DATABASE_URL}`)
+    } catch (e) {
+      console.log('erorr', e)
+    }
+  }
+}
 
-mongoose.connection.once('open', () =>
-  // tslint:disable-next-line:no-console
-  console.log(`Connected to mongo at ${MONGO_DATABASE_URL}`)
-)
+connectToDb()
 
 export default mongoose

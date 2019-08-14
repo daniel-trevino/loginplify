@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { APP_SECRET } from './constants'
 import { AuthenticationError } from 'apollo-server-core'
 

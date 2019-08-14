@@ -1,4 +1,4 @@
-import * as nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer'
 import { IPermission } from '../interfaces/Permission.interface'
 import { randomBytes } from 'crypto'
 import { promisify } from 'util'

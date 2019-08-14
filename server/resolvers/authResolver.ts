@@ -1,5 +1,5 @@
-import * as bcrypt from 'bcryptjs'
-import * as jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import { APP_SECRET } from '../utils/constants'
 import { isAlreadyRegistered } from '../utils/authUtils'
 import { getDefaultPermissions } from '../utils/dbUtils'
