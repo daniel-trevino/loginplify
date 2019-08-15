@@ -69,12 +69,12 @@ The GraphQL playground will be available on `http://localhost:3000`
 
 ```js
 {
-  mongodb: 'mongodb+srv://prod:prod@prod.mongodb.net/',
-  emailHost: 'pop.gmail.com',
-  emailUser: 'mygmail@gmail.com',
-  emailPassword: 'gmailPassword',
-  emailSender: 'no-reply@myemail.com',
-  appSecret: 'verySecretThing'
+  "mongodb": "mongodb+srv://prod:prod@prod.mongodb.net/",
+  "emailHost": "pop.gmail.com",
+  "emailUser": "mygmail@gmail.com",
+  "emailPassword": "gmailPassword",
+  "emailSender": "no-reply@myemail.com",
+  "appSecret": "verySecretThing"
 }
 ```
 
