@@ -18,10 +18,7 @@ const LoginController = (props: any) => {
   const client = new ApolloClient({ uri: settingsContext.state.endpoint })
 
   // Only re-rendered if `state.loggedIn` changes:
-  const children = React.useMemo(
-    () => <React.Fragment>{props.children}</React.Fragment>,
-    [state.loggedIn]
-  )
+  const children = React.useMemo(() => props.children, [state.loggedIn])
 
   const loginPage = React.useMemo(() => <LoginView />, [state.loggedIn])
 
