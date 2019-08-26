@@ -33,7 +33,7 @@ The goal of this project is to provide a modern and easy to integrate login serv
   - [x] me
   - [x] getUsers
 - [x] Handle multiple permissions
-- [ ] Send permissions array on the token
+- [x] Send permissions array on the token
 - [ ] Move to oAuth (add expiry to token and use client UI to invalidate them and logout users)
 
 **Library**

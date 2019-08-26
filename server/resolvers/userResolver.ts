@@ -1,5 +1,4 @@
-import mongoose from '../lib/database'
-import { getUserID } from '../utils/userUtils'
+import { getUserID, getUserFromId } from '../utils/userUtils'
 import { verifyAdmin } from '../utils/authUtils'
 import { AuthenticationError } from 'apollo-server-core'
 
@@ -19,21 +18,7 @@ export const userQueries = {
   me: async (_: any, _args: any, ctx: any) => {
     const _id = getUserID(ctx)
 
-    const ObjectId = mongoose.Types.ObjectId
-
-    const [user] = await ctx.models.User.aggregate([
-      { $match: { _id: new ObjectId(_id) } },
-      {
-        $lookup: {
-          as: 'permissions', // Alias
-          foreignField: '_id', // Field in the 'permission' schema
-          from: 'permissions', // collection name in db
-          localField: 'permissions' // Field in the user schema
-        }
-      }
-    ])
-
-    return user
+    return getUserFromId(ctx, _id)
   }
 }
 

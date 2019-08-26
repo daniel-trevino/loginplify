@@ -7,6 +7,7 @@ import {
   isStillValidTokenExpiry,
   createRandomToken
 } from '../utils/authUtils'
+import { getUserFromId, getUserTokenData } from '../utils/userUtils'
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { AuthenticationError } = require('apollo-server-core')
@@ -20,20 +21,24 @@ export const authMutations = {
     ctx: any
   ) => {
     // 1. Check if there is a user with that email
-    const user = await ctx.models.User.findOne({ email })
+    const possibleUser = await ctx.models.User.findOne({ email })
 
-    if (!user) {
+    if (!possibleUser) {
       throw new AuthenticationError(`No such user found for email: ${email}`)
     }
 
     // 2. Check if their password is correct
-    const valid = await bcrypt.compare(password, user.password)
+    const valid = await bcrypt.compare(password, possibleUser.password)
     if (!valid) {
       throw new AuthenticationError('Invalid password')
     }
 
-    // 3. Generate the JWT Token
-    const token = jwt.sign({ userID: user._id }, APP_SECRET)
+    // Get the user with permissions
+    const user = await getUserFromId(ctx, possibleUser._id)
+    const userTokenData = getUserTokenData(user)
+
+    // Create JWT token
+    const token = jwt.sign(userTokenData, APP_SECRET)
 
     // 4. Return the user
     return {
@@ -174,7 +179,7 @@ export const authMutations = {
     const generatedToken = await createRandomToken()
 
     // Create the user in the DB
-    const user = await ctx.models.User.create({
+    const newUser = await ctx.models.User.create({
       ...args,
       createdAt: `${Date.now()}`,
       password,
@@ -183,8 +188,12 @@ export const authMutations = {
       verifyTokenExpiry: generatedToken.randomTokenExpiry
     })
 
+    // Get the user with permissions
+    const user = await getUserFromId(ctx, newUser._id)
+    const userTokenData = getUserTokenData(user)
+
     // Create JWT token
-    const token = jwt.sign({ userID: user._id }, APP_SECRET)
+    const token = jwt.sign(userTokenData, APP_SECRET)
 
     // Send confirmation email, not waiting for it since it might delay the sign up process.
     await authMutations.requestVerify(_, args, ctx)
