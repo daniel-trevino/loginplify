@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.ts",
   "private": true,
+  "engines": {
+    "node": "10.10.0"
+  },
   "scripts": {
     "now:deploy": "now -e MONGO_DATABASE_URL=@login-service-mongodb -e APP_SECRET=@app-secret",
     "deployservice": "node scripts/deployToNow.js"
@@ -15,7 +18,9 @@
   "keywords": [],
   "author": "Daniel Treviño",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@types/node": "^12.7.2"
+  },
   "devDependencies": {
     "@types/dashify": "^1.0.0",
     "dashify": "^2.0.0"

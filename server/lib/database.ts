@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 import { MONGO_DATABASE_URL } from '../utils/constants'
 
 let client: any = null

@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken'
 import { APP_SECRET } from './constants'
-import { AuthenticationError } from 'apollo-server-core'
+const jwt = require('jsonwebtoken')
+const { AuthenticationError } = require('apollo-server-core')
 
 export function getUserID(ctx: any) {
   const Authorization = ctx.req.get('Authorization')

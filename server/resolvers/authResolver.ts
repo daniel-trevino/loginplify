@@ -1,5 +1,3 @@
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 import { APP_SECRET } from '../utils/constants'
 import { isAlreadyRegistered } from '../utils/authUtils'
 import { getDefaultPermissions } from '../utils/dbUtils'
@@ -9,7 +7,9 @@ import {
   isStillValidTokenExpiry,
   createRandomToken
 } from '../utils/authUtils'
-import { AuthenticationError } from 'apollo-server-core'
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const { AuthenticationError } = require('apollo-server-core')
 
 export const authQueries = {}
 

@@ -1,12 +1,12 @@
 import './lib/env'
-import { ApolloServer } from 'apollo-server-express'
-import cors from 'cors'
-import bodyParser from 'body-parser'
-import express from 'express'
 import typeDefs from './schema/schema'
 import resolvers from './resolvers/resolvers'
 import { PORT } from './utils/constants'
 import models from './models/models'
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const express = require('express')
+const { ApolloServer } = require('apollo-server-express')
 
 const server = new ApolloServer({
   context: request => ({

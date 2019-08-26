@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import * as nodemailer from 'nodemailer'
 import { IPermission } from '../interfaces/Permission.interface'
 import { randomBytes } from 'crypto'
 import { promisify } from 'util'
@@ -15,6 +15,8 @@ export async function sendConfirmationEmail(
   token: string,
   email: string
 ) {
+  if (!EMAIL_PASSWORD || !EMAIL_USER) return
+
   const transporter = nodemailer.createTransport({
     auth: {
       pass: EMAIL_PASSWORD,
@@ -49,6 +51,8 @@ export async function sendResetPasswordEmail(
   token: string,
   email: string
 ) {
+  if (!EMAIL_PASSWORD || !EMAIL_USER) return
+
   const transporter = nodemailer.createTransport({
     auth: {
       pass: EMAIL_PASSWORD,

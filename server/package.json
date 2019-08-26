@@ -2,6 +2,9 @@
   "name": "loginplify-server",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "10.10.0"
+  },
   "scripts": {
     "dev": "nodemon -e ts,graphql --ignore tmp/**/* --exec ts-node ./index.ts",
     "run": "node dist",
