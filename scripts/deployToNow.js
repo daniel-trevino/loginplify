@@ -53,6 +53,15 @@ function addEnvVariablesToNow() {
   })
 }
 
+function removeEnvVariablesFromNow() {
+  Object.keys(deploySettings).forEach(value => {
+    const keyWithDash = `loginplify-${dashify(value)}`
+    const nowCommand = `now secret rm ${keyWithDash}`
+    console.log(`Removing now secret ${keyWithDash}`)
+    execSync(nowCommand, { stdio: 'inherit' })
+  })
+}
+
 function deployToNow() {
   const parts = [
     'now',
@@ -67,5 +76,6 @@ function deployToNow() {
   execSync(parts.join(' '))
 }
 
+// removeEnvVariablesFromNow()
 addEnvVariablesToNow()
 deployToNow()

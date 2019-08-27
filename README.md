@@ -82,6 +82,10 @@ The GraphQL playground will be available on `http://localhost:3000`
 
 4. Run `npm run deployservice`
 
+5. Add an alias to your deployment in now with the following syntax: `loginplify.[mydomain.com]`
+
+6. Access your graphql endpoint as: `https://loginplify.[mydomain.com]/graphql`
+
 ## Implement in a React application
 
 Please refer to the documentation in the [Loginplify component library](https://github.com/danielivert/login-service/tree/master/library)
