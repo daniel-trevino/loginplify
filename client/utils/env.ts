@@ -42,5 +42,5 @@ export const getEndpoint = (hostname: string) => {
     return `http://${hostname}:3000/graphql`
   }
 
-  return `https://loginservice.${hostname}/graphql`
+  return `https://loginplify.${hostname}/graphql`
 }
