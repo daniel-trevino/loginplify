@@ -13,20 +13,20 @@ stories.addDecorator(withKnobs)
 stories.add('Verify success', () => (
   <VerifyPage
     trigggerVerify={false}
-    endpoint="https://loginservice.danieltrevino.se/graphql"
+    endpoint="https://loginplify.danieltrevino.se/graphql"
     token="test"
   />
 ))
 stories.add('Verify with request', () => (
   <VerifyPage
-    endpoint="https://loginservice.danieltrevino.se/graphql"
+    endpoint="https://loginplify.danieltrevino.se/graphql"
     token="test"
   />
 ))
 
 stories.add('New password', () => (
   <NewPasswordPage
-    endpoint="https://loginservice.danieltrevino.se/graphql"
+    endpoint="https://loginplify.danieltrevino.se/graphql"
     token="test"
   />
 ))

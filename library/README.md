@@ -15,7 +15,7 @@ import * as React from 'react'
 import { withAuthenticator } from 'loginplify'
 
 const settings = {
-  endpoint: 'https://loginservice.mydomain.se/graphql'
+  endpoint: 'https://loginplify.mydomain.se/graphql'
 }
 
 const ProtectedPage = () => {
@@ -36,7 +36,7 @@ import * as React from 'react'
 import { withAuthenticator, useLoginServiceContext } from 'loginplify'
 
 const settings = {
-  endpoint: 'https://loginservice.mydomain.se/graphql'
+  endpoint: 'https://loginplify.mydomain.se/graphql'
 }
 
 const ProtectedPage = () => {

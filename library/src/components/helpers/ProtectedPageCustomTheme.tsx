@@ -3,7 +3,7 @@ import { useLoginServiceContext } from '../../context/UserContext'
 import withAuthenticator from '../../components/withAuthenticator'
 
 const settings = {
-  endpoint: 'https://loginservice.danieltrevino.se/graphql',
+  endpoint: 'https://loginplify.danieltrevino.se/graphql',
   theme: {
     primaryColor: '#2f54eb'
   }

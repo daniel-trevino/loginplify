@@ -2,7 +2,7 @@ import * as React from 'react'
 import { withAuthenticator, useLoginServiceContext } from 'loginplify'
 
 const settings = {
-  endpoint: 'https://loginservice.danieltrevino.se/graphql'
+  endpoint: 'https://loginplify.danieltrevino.se/graphql'
 }
 
 const Secret = () => {
