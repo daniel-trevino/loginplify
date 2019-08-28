@@ -15,4 +15,11 @@ export interface IUser {
 export interface IUserTokenData {
   id: string
   permissions: Array<Permission>
+  'https://hasura.io/jwt/claims': {
+    'x-hasura-allowed-roles': Array<Permission>
+    'x-hasura-default-role': string
+    'x-hasura-user-id': string
+    'x-hasura-org-id'?: string
+    'x-hasura-custom'?: string
+  }
 }

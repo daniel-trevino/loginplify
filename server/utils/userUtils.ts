@@ -1,5 +1,5 @@
 import { IUser, IUserTokenData } from '../interfaces/User.interface'
-import { APP_SECRET } from './constants'
+import { APP_SECRET, DEFAULT_PERMISSION } from './constants'
 import mongoose from '../lib/database'
 const jwt = require('jsonwebtoken')
 const { AuthenticationError } = require('apollo-server-core')
@@ -37,8 +37,15 @@ export async function getUserFromId(ctx: any, id: string) {
 }
 
 export function getUserTokenData(user: IUser): IUserTokenData {
+  const permissions = user.permissions.map(permission => permission.enum)
   return {
     id: user._id,
-    permissions: user.permissions.map(permission => permission.enum)
+    permissions,
+    'https://hasura.io/jwt/claims': {
+      'x-hasura-allowed-roles': permissions,
+      'x-hasura-default-role': DEFAULT_PERMISSION,
+      'x-hasura-user-id': user._id,
+      'x-hasura-org-id': '123'
+    }
   }
 }

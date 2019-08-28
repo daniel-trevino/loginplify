@@ -1,16 +1,16 @@
-import { PERMISSIONS } from './constants'
+import { PERMISSIONS, DEFAULT_PERMISSION } from './constants'
 
 export async function getDefaultPermissions(ctx: any) {
   try {
     const permissionExists = await ctx.models.Permission.findOne({
-      enum: PERMISSIONS.USER
+      enum: DEFAULT_PERMISSION
     })
 
     if (!permissionExists) {
       await createAdminPermission(ctx)
       // Create default permission
       const newDefaultPermission = await ctx.models.Permission.create({
-        enum: PERMISSIONS.USER
+        enum: DEFAULT_PERMISSION
       })
 
       return newDefaultPermission

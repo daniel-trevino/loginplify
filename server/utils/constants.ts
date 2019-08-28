@@ -1,4 +1,7 @@
-import { IPermissionsObject } from '../interfaces/Permission.interface'
+import {
+  IPermissionsObject,
+  Permission
+} from '../interfaces/Permission.interface'
 
 export const PORT: number = parseInt(process.env.PORT || '', 10) || 3000
 export const APP_SECRET: string = process.env.APP_SECRET || ''
@@ -11,3 +14,4 @@ export const PERMISSIONS: IPermissionsObject = {
   ADMIN: 'ADMIN',
   USER: 'USER'
 }
+export const DEFAULT_PERMISSION: Permission = PERMISSIONS.USER
