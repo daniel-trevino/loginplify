@@ -8,11 +8,9 @@ export function getUserID(ctx: any) {
   const Authorization = ctx.req.get('Authorization')
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
-    const { userID } = jwt.verify(token, APP_SECRET) as {
-      userID: string
-    }
+    const tokenData: IUserTokenData = jwt.verify(token, APP_SECRET)
 
-    return userID
+    return tokenData.id
   }
 
   throw new AuthenticationError('Your session expired. Sign in again.')
@@ -44,8 +42,7 @@ export function getUserTokenData(user: IUser): IUserTokenData {
     'https://hasura.io/jwt/claims': {
       'x-hasura-allowed-roles': permissions,
       'x-hasura-default-role': DEFAULT_PERMISSION,
-      'x-hasura-user-id': user._id,
-      'x-hasura-org-id': '123'
+      'x-hasura-user-id': user._id
     }
   }
 }
