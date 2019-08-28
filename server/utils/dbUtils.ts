@@ -25,13 +25,13 @@ export async function getDefaultPermissions(ctx: any) {
 export async function createAdminPermission(ctx: any) {
   try {
     const adminPermissionExists = await ctx.models.Permission.findOne({
-      enum: PERMISSIONS.ADMIN
+      enum: PERMISSIONS.admin
     })
 
     if (!adminPermissionExists) {
       // Create default permission
       await ctx.models.Permission.create({
-        enum: PERMISSIONS.ADMIN
+        enum: PERMISSIONS.admin
       })
     }
   } catch (e) {

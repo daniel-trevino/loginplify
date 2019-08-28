@@ -11,7 +11,7 @@ export const EMAIL_USER: string = process.env.EMAIL_USER || ''
 export const EMAIL_PASSWORD: string = process.env.EMAIL_PASSWORD || ''
 export const EMAIL_SENDER: string = process.env.EMAIL_SENDER || ''
 export const PERMISSIONS: IPermissionsObject = {
-  ADMIN: 'ADMIN',
-  USER: 'USER'
+  admin: 'admin',
+  user: 'user'
 }
-export const DEFAULT_PERMISSION: Permission = PERMISSIONS.USER
+export const DEFAULT_PERMISSION: Permission = PERMISSIONS.user

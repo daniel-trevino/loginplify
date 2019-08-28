@@ -1,6 +1,6 @@
 enum PERMISSIONS {
-  ADMIN = 'ADMIN',
-  USER = 'USER'
+  admin = 'admin',
+  user = 'user'
 }
 
 export type IPermissionsObject = { [K in keyof typeof PERMISSIONS]: K }
