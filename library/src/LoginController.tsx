@@ -36,7 +36,7 @@ const LoginController = (props: any) => {
   }
 
   if (state.loggedIn) {
-    return <ApolloProvider client={client}>{props.children}</ApolloProvider>
+    return props.children
   } else if (userIsLoggedOut) {
     return (
       <ApolloProvider client={client}>
