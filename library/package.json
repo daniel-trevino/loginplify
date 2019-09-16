@@ -1,6 +1,6 @@
 {
   "name": "loginplify",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "React components to help you integrate a login flow into your application.",
   "main": "dist/index.js",
   "scripts": {
@@ -46,16 +46,9 @@
     "dist"
   ],
   "dependencies": {
-    "apollo-boost": "^0.4.3",
-    "apollo-cache-inmemory": "^1.6.2",
-    "apollo-client": "^2.6.3",
-    "apollo-link-http": "^1.5.15",
     "axios": "^0.19.0",
-    "graphql": "^14.4.2",
-    "graphql-tag": "^2.10.1",
     "js-cookie": "^2.2.0",
     "rc-form-hooks": "0.0.1-alpha.3",
-    "react-apollo": "^2.5.8",
     "react-dom-confetti": "^0.1.1"
   }
 }
