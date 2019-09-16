@@ -1,28 +1,13 @@
 import * as React from 'react'
 import useForm from 'rc-form-hooks'
-import { Mutation } from 'react-apollo'
-import { gql } from 'apollo-boost'
 import StringFormItem from '../StringFormItem'
 import { useLoginServiceContext } from '../../context/UserContext'
 import styled from 'styled-components'
 import Button from '../Button'
 import TextButton from '../../components/TextButton'
-
-const LOGIN = gql`
-  mutation LOGIN($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
-  }
-`
-
-const SIGN_UP = gql`
-  mutation SIGN_UP($name: String!, $email: String!, $password: String!) {
-    signUp(name: $name, email: $email, password: $password) {
-      token
-    }
-  }
-`
+import { useSettingsContext } from '../../context/SettingsContext'
+import MainApi from '../../utils/api/MainApi'
+import mutations from '../../utils/mutations'
 
 const LoginContainer = styled.div`
   display: block;
@@ -78,8 +63,16 @@ const ActionButton = styled(Button)`
 
 const LoginForm = () => {
   const { actions, state } = useLoginServiceContext()
-  const [isPossibleValid, setIsPossibleValid] = React.useState(false)
-  const [inputFields, setInputFields] = React.useState({
+  const settingsContext = useSettingsContext()
+  const endpoint = settingsContext.state.endpoint
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [isPossibleValid, setIsPossibleValid] = React.useState<boolean>(false)
+  const [error, setError] = React.useState(null)
+  const [inputFields, setInputFields] = React.useState<{
+    name: string
+    email: string
+    password: string
+  }>({
     name: '',
     email: '',
     password: ''
@@ -93,7 +86,7 @@ const LoginForm = () => {
     password: string
   }>()
 
-  const onSubmit = async (e: React.FormEvent, login: Function) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -101,9 +94,22 @@ const LoginForm = () => {
 
     if (invalidFields(values)) return
 
-    login({
+    const mutation = signUpView
+      ? mutations.signUpMutation
+      : mutations.loginMutation
+    const body = {
+      query: mutation,
       variables: values
-    })
+    }
+
+    setLoading(true)
+    const { data } = await MainApi.post(endpoint, body)
+    setLoading(false)
+    if (data.errors) {
+      setError(data.errors[0])
+      return
+    }
+    onCompletedMutation(data.data)
   }
 
   const onCompletedMutation = (data: any) => {
@@ -154,81 +160,65 @@ const LoginForm = () => {
 
   const titleText = signUpView ? 'Sign up' : 'Login'
   const buttonText = signUpView ? 'Sign Up' : 'Login'
-  const mutation = signUpView ? SIGN_UP : LOGIN
 
   return (
-    <Mutation
-      mutation={mutation}
-      onCompleted={onCompletedMutation}
-      onError={(error: any) => {
-        // If you want to send error to external service?
-        console.log(error)
-      }}
-    >
-      {(login: any, { data, error, loading }: any) => {
-        return (
-          <LoginContainer>
-            <Form onSubmit={e => onSubmit(e, login)}>
-              <h2>{titleText}</h2>
-              <p>Enter your details below</p>
-              {signUpView && (
-                <StringFormItem
-                  label="Name"
-                  name="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  getFieldDecorator={getFieldDecorator}
-                  setFields={setFields}
-                  onChange={onChangeField}
-                />
-              )}
-              <StringFormItem
-                label="Email"
-                name="email"
-                type="text"
-                placeholder="Email address"
-                getFieldDecorator={getFieldDecorator}
-                setFields={setFields}
-                onChange={onChangeField}
-              />
-              <StringFormItem
-                label="Password"
-                name="password"
-                type="password"
-                placeholder="Password"
-                getFieldDecorator={getFieldDecorator}
-                setFields={setFields}
-                onChange={onChangeField}
-                noMargin
-              />
-              {!signUpView && (
-                <ForgotPasswordButton
-                  onClick={() => actions.setView('requestReset')}
-                >
-                  Forgot password?
-                </ForgotPasswordButton>
-              )}
+    <LoginContainer>
+      <Form onSubmit={e => onSubmit(e)}>
+        <h2>{titleText}</h2>
+        <p>Enter your details below</p>
+        {signUpView && (
+          <StringFormItem
+            label="Name"
+            name="name"
+            type="text"
+            placeholder="Enter your name"
+            getFieldDecorator={getFieldDecorator}
+            setFields={setFields}
+            onChange={onChangeField}
+          />
+        )}
+        <StringFormItem
+          label="Email"
+          name="email"
+          type="text"
+          placeholder="Email address"
+          getFieldDecorator={getFieldDecorator}
+          setFields={setFields}
+          onChange={onChangeField}
+        />
+        <StringFormItem
+          label="Password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          getFieldDecorator={getFieldDecorator}
+          setFields={setFields}
+          onChange={onChangeField}
+          noMargin
+        />
+        {!signUpView && (
+          <ForgotPasswordButton onClick={() => actions.setView('requestReset')}>
+            Forgot password?
+          </ForgotPasswordButton>
+        )}
 
-              <ActionButton
-                type="submit"
-                loading={loading}
-                disabled={!isPossibleValid}
-              >
-                {buttonText}
-              </ActionButton>
+        <ActionButton
+          type="submit"
+          loading={loading}
+          disabled={!isPossibleValid}
+        >
+          {buttonText}
+        </ActionButton>
 
-              <InfoText>{infoText}</InfoText>
+        <InfoText>{infoText}</InfoText>
 
-              {error && (
-                <ErrorWrapper>
-                  <p>{error.message}</p>
-                </ErrorWrapper>
-              )}
-            </Form>
-          </LoginContainer>
-        )
-      }}
-    </Mutation>
+        {error && (
+          <ErrorWrapper>
+            <p>{error.message}</p>
+          </ErrorWrapper>
+        )}
+      </Form>
+    </LoginContainer>
   )
 }
 

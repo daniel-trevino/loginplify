@@ -1,6 +1,4 @@
 import * as React from 'react'
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
 import Cookies from 'js-cookie'
 
 import LoginView from './pages/LoginView'
@@ -19,8 +17,6 @@ const LoginController = (props: any) => {
     return null
   }
 
-  const client = new ApolloClient({ uri: settingsContext.state.endpoint })
-
   if (readingTokenFromCookie) {
     const currentToken = Cookies.get('loginplify-token')
 
@@ -38,11 +34,7 @@ const LoginController = (props: any) => {
   if (state.loggedIn) {
     return props.children
   } else if (userIsLoggedOut) {
-    return (
-      <ApolloProvider client={client}>
-        <LoginView />
-      </ApolloProvider>
-    )
+    return <LoginView />
   }
 
   return null
