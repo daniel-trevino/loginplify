@@ -47,8 +47,10 @@ The goal of this project is to provide a modern and easy to integrate login serv
   - [x] withAuthenticator HOC
   - [ ] Protected component (instead of HOC)
 - [x] Expose state in a hook `useLoginServiceContext`
+- [x] Change the cookie name to `loginplify-token`
+- [x] Support SSR
 - [ ] Better way to initialize the endpoint just once in the application
-- [ ] Update to react-apollo 3.X.X
+- [ ] Migrate from Apollo Client to use something lighter
 
 ## Folder structure and development
 
@@ -62,7 +64,7 @@ The GraphQL playground will be available on `http://localhost:3000`
 
 ## Get Started
 
-## 1) Deploy the login service
+## 1) Deploy the login service to now.sh
 
 1. Clone this repository
 2. Create a file on the root folder called `deploy-settings.json` copy this JSON object into it with your config settings

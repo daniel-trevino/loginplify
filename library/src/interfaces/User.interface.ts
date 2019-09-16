@@ -7,6 +7,7 @@ export interface LoginServiceContext {
 export interface LoginServiceActions {
   setView: (value: IViews) => void
   login: (token: string) => void
+  setIsAuthenticating: (value: boolean) => void
   logout: () => void
   resetState: () => void
 }
@@ -17,12 +18,14 @@ export interface IUserState {
   view: IViews
   loggedIn: boolean
   token: string | null
+  isAuthenticating: boolean
 }
 
 enum ACTION_TYPE {
   SET_VIEW = 'SET_VIEW',
   SET_LOGGED_IN = 'SET_LOGGED_IN',
   SET_TOKEN = 'SET_TOKEN',
+  SET_ISAUTHENTICATING = 'SET_ISAUTHENTICATING',
   RESET_STATE = 'RESET_STATE'
 }
 export type ActionType = keyof typeof ACTION_TYPE

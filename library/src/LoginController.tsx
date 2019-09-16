@@ -1,14 +1,18 @@
 import * as React from 'react'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
+import Cookies from 'js-cookie'
 
 import LoginView from './pages/LoginView'
 import { UserContext } from './context/UserContext'
 import { SettingsContext } from './context/SettingsContext'
 
 const LoginController = (props: any) => {
-  const { state } = React.useContext(UserContext)
+  const { state, actions } = React.useContext(UserContext)
   const settingsContext = React.useContext(SettingsContext)
+  // This solves issues with SSR
+  const readingTokenFromCookie = state.isAuthenticating && !state.loggedIn
+  const userIsLoggedOut = !state.loggedIn && !state.isAuthenticating
 
   if (!settingsContext.state.endpoint) {
     console.error('Please initialize the login package')
@@ -17,16 +21,31 @@ const LoginController = (props: any) => {
 
   const client = new ApolloClient({ uri: settingsContext.state.endpoint })
 
-  // Only re-rendered if `state.loggedIn` changes:
-  const children = React.useMemo(() => props.children, [state.loggedIn])
+  if (readingTokenFromCookie) {
+    const currentToken = Cookies.get('loginplify-token')
 
-  const loginPage = React.useMemo(() => <LoginView />, [state.loggedIn])
+    if (currentToken) {
+      actions.login(currentToken)
+    } else {
+      // User is logged out, no token
+      actions.setIsAuthenticating(false)
+    }
 
-  if (state.loggedIn) {
-    return <ApolloProvider client={client}>{children}</ApolloProvider>
+    // Return white screen, instead of a loading state
+    return null
   }
 
-  return <ApolloProvider client={client}>{loginPage}</ApolloProvider>
+  if (state.loggedIn) {
+    return <ApolloProvider client={client}>{props.children}</ApolloProvider>
+  } else if (userIsLoggedOut) {
+    return (
+      <ApolloProvider client={client}>
+        <LoginView />
+      </ApolloProvider>
+    )
+  }
+
+  return null
 }
 
 export default LoginController

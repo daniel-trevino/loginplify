@@ -19,8 +19,11 @@ export const useActions = (
     dispatch({ type: types.SET_LOGGED_IN, payload: Boolean(token) })
     dispatch({ type: types.SET_TOKEN, payload: token })
   }
+  function setIsAuthenticating(value: boolean) {
+    dispatch({ type: types.SET_ISAUTHENTICATING, payload: value })
+  }
   function logout() {
-    removeCookie('token')
+    removeCookie('loginplify-token')
     dispatch({ type: types.SET_LOGGED_IN, payload: false })
   }
   function resetState() {
@@ -29,6 +32,7 @@ export const useActions = (
 
   return {
     setView,
+    setIsAuthenticating,
     login,
     logout,
     resetState
