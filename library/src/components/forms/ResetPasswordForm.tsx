@@ -1,19 +1,14 @@
 import * as React from 'react'
 import useForm from 'rc-form-hooks'
-import { Mutation } from 'react-apollo'
-import { gql } from 'apollo-boost'
 import StringFormItem from '../StringFormItem'
 import { useLoginServiceContext } from '../../context/UserContext'
 import styled from 'styled-components'
 import Button from '../Button'
 import TextButton from '../TextButton'
 import Message from '../Message'
-
-const REQUEST_PASSWORD = gql`
-  mutation REQUEST_PASSWORD($email: String!) {
-    requestReset(email: $email)
-  }
-`
+import mutations from '../../utils/mutations'
+import MainApi from '../../utils/api/MainApi'
+import { useSettingsContext } from '../../context/SettingsContext'
 
 const LoginContainer = styled.div`
   display: block;
@@ -57,6 +52,10 @@ const ErrorWrapper = styled.div`
 
 const ResetPasswordForm = () => {
   const { actions } = useLoginServiceContext()
+  const { state } = useSettingsContext()
+  const endpoint = state.endpoint
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [error, setError] = React.useState(null)
   const [requestSent, setRequestSent] = React.useState(false)
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
   const [inputFields, setInputFields] = React.useState({
@@ -69,7 +68,7 @@ const ResetPasswordForm = () => {
     email: string
   }>()
 
-  const onSubmit = async (e: React.FormEvent, requestReset: Function) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -77,10 +76,19 @@ const ResetPasswordForm = () => {
 
     if (invalidFields(values)) return
 
-    requestReset({ variables: values })
-  }
+    const body = {
+      query: mutations.resetPasswordMutation,
+      variables: values
+    }
 
-  const onCompletedMutation = (data: any) => {
+    setLoading(true)
+    const { data } = await MainApi.post(endpoint, body)
+    setLoading(false)
+    if (data.errors) {
+      setError(data.errors[0])
+      return
+    }
+
     setRequestSent(true)
   }
 
@@ -98,56 +106,46 @@ const ResetPasswordForm = () => {
     }
   }
 
+  if (requestSent) {
+    return (
+      <Message title="Success" success>
+        <p>The reset password email has been sent!</p>
+        <BackButton onClick={() => actions.setView('login')}>
+          Go back to login screen
+        </BackButton>
+      </Message>
+    )
+  }
+
   return (
-    <Mutation mutation={REQUEST_PASSWORD} onCompleted={onCompletedMutation}>
-      {(requestReset: any, { data, error, loading }: any) => {
-        if (requestSent) {
-          return (
-            <Message title="Success" success>
-              <p>The reset password email has been sent!</p>
-              <BackButton onClick={() => actions.setView('login')}>
-                Go back to login screen
-              </BackButton>
-            </Message>
-          )
-        }
+    <LoginContainer>
+      <Form onSubmit={e => onSubmit(e)}>
+        <h2>Reset your password</h2>
+        <p>Write your email and you will receive a password reset link</p>
+        <FormItem
+          label="Email"
+          name="email"
+          type="text"
+          placeholder="Email address"
+          getFieldDecorator={getFieldDecorator}
+          setFields={setFields}
+          onChange={onChangeField}
+        />
 
-        return (
-          <LoginContainer>
-            <Form onSubmit={e => onSubmit(e, requestReset)}>
-              <h2>Reset your password</h2>
-              <p>Write your email and you will receive a password reset link</p>
-              <FormItem
-                label="Email"
-                name="email"
-                type="text"
-                placeholder="Email address"
-                getFieldDecorator={getFieldDecorator}
-                setFields={setFields}
-                onChange={onChangeField}
-              />
+        <Button type="submit" loading={loading} disabled={!isPossibleValid}>
+          Reset password
+        </Button>
 
-              <Button
-                type="submit"
-                loading={loading}
-                disabled={!isPossibleValid}
-              >
-                Reset password
-              </Button>
-
-              <BackButton onClick={() => actions.setView('login')}>
-                Send me back to the login screen
-              </BackButton>
-              {error && (
-                <ErrorWrapper>
-                  <p>{error.message}</p>
-                </ErrorWrapper>
-              )}
-            </Form>
-          </LoginContainer>
-        )
-      }}
-    </Mutation>
+        <BackButton onClick={() => actions.setView('login')}>
+          Send me back to the login screen
+        </BackButton>
+        {error && (
+          <ErrorWrapper>
+            <p>{error.message}</p>
+          </ErrorWrapper>
+        )}
+      </Form>
+    </LoginContainer>
   )
 }
 

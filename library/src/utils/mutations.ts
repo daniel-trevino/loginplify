@@ -14,7 +14,14 @@ const signUpMutation = `
   }
 `
 
+const resetPasswordMutation = `
+  mutation resetPasswordMutation($email: String!) {
+    requestReset(email: $email)
+  }
+`
+
 export default {
   loginMutation,
-  signUpMutation
+  signUpMutation,
+  resetPasswordMutation
 }
