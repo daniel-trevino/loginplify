@@ -1,6 +1,4 @@
 import * as React from 'react'
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
 
 import PageWrapper from '../components/PageWrapper'
 import Verify from '../components/Verify'
@@ -9,26 +7,23 @@ import { ThemeProvider } from 'styled-components'
 import theme from '../utils/theme'
 
 interface IProps {
-  trigggerVerify?: boolean
   token: string
   endpoint: string
 }
 
 const VerifyPage = (props: IProps) => {
-  const { trigggerVerify, endpoint, token } = props
-
-  const client = new ApolloClient({ uri: endpoint })
+  const { endpoint, token } = props
 
   return (
-    <ApolloProvider client={client}>
+    <>
       <GlobalStyle />
 
       <ThemeProvider theme={theme}>
         <PageWrapper>
-          <Verify token={token} trigggerVerify={trigggerVerify} />
+          <Verify token={token} endpoint={endpoint} />
         </PageWrapper>
       </ThemeProvider>
-    </ApolloProvider>
+    </>
   )
 }
 

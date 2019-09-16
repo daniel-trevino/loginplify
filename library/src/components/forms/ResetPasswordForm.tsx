@@ -77,7 +77,7 @@ const ResetPasswordForm = () => {
     if (invalidFields(values)) return
 
     const body = {
-      query: mutations.resetPasswordMutation,
+      query: mutations.requestResetPasswordMutation,
       variables: values
     }
 

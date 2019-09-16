@@ -1,31 +1,43 @@
 import * as React from 'react'
-import gql from 'graphql-tag'
-import { Mutation } from 'react-apollo'
 import Message from './Message'
 import Balls from './Balls'
+import MainApi from '../utils/api/MainApi'
+import mutations from '../utils/mutations'
 
 type Props = {
   token: string
-  trigggerVerify?: boolean
-}
-
-export const VERIFY_USER = gql`
-  mutation VERIFY_USER($token: String!) {
-    verify(token: $token)
-  }
-`
-
-const TriggerVerify = (props: any): any => {
-  React.useEffect(() => {
-    props.verifyUser()
-  }, [])
-
-  return <Balls />
+  endpoint: string
 }
 
 const Verify = (props: Props) => {
+  const { endpoint } = props
   const [requestSent, setRequestSent] = React.useState(false)
-  const { token, trigggerVerify = true } = props
+  const [loading, setLoading] = React.useState<boolean>(true)
+  const [error, setError] = React.useState(null)
+  const { token } = props
+
+  const init = async () => {
+    const variables = {
+      token
+    }
+
+    const body = {
+      query: mutations.verifyUserMutation,
+      variables
+    }
+
+    const { data } = await MainApi.post(endpoint, body)
+    setLoading(false)
+    if (data.errors) {
+      setError(data.errors[0])
+      return
+    }
+    setRequestSent(true)
+  }
+
+  React.useEffect(() => {
+    init()
+  }, [])
 
   if (!token) {
     return (
@@ -35,34 +47,18 @@ const Verify = (props: Props) => {
     )
   }
 
-  const Success = (
-    <Message title="Account verified correcty" success>
-      You may close this window now
-    </Message>
-  )
-
-  const onCompletedMutation = (data: any) => {
-    setRequestSent(true)
-  }
+  if (error) return <Message title="Error">{error.message}</Message>
 
   // This is to show how it would look with verification
-  if (!trigggerVerify || requestSent) {
-    return Success
+  if (requestSent && !loading) {
+    return (
+      <Message title="Account verified correcty" success>
+        You may close this window now
+      </Message>
+    )
   }
 
-  return (
-    <Mutation
-      mutation={VERIFY_USER}
-      variables={{ token }}
-      onCompleted={onCompletedMutation}
-    >
-      {(verifyUser: any, { error }: any) => {
-        if (error) return <Message title="Error">{error.message}</Message>
-
-        return <TriggerVerify verifyUser={verifyUser} />
-      }}
-    </Mutation>
-  )
+  return <Balls />
 }
 
 export default Verify

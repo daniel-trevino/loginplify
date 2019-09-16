@@ -1,35 +1,20 @@
 import * as React from 'react'
 import useForm from 'rc-form-hooks'
-import { Mutation } from 'react-apollo'
-import { gql } from 'apollo-boost'
 import StringFormItem from '../StringFormItem'
 import styled from 'styled-components'
 import Button from '../Button'
 import TextButton from '../TextButton'
 import Message from '../Message'
+import MainApi from '../../utils/api/MainApi'
+import mutations from '../../utils/mutations'
 
 interface IProps {
   token: string
+  endpoint: string
   backButtonText?: string
   href?: string
   target?: '_blank' | '_self' | '_parent' | '_top'
 }
-
-export const RESET_PASSWORD = gql`
-  mutation RESET_PASSWORD(
-    $resetToken: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    resetPassword(
-      resetToken: $resetToken
-      password: $password
-      confirmPassword: $confirmPassword
-    ) {
-      token
-    }
-  }
-`
 
 const Container = styled.div`
   display: block;
@@ -74,7 +59,10 @@ const ErrorWrapper = styled.div`
 `
 
 const NewPasswordForm = (props: IProps) => {
+  const endpoint = props.endpoint
   const { token, backButtonText, href, target } = props
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [error, setError] = React.useState(null)
   const [requestSent, setRequestSent] = React.useState(false)
   const [isPossibleValid, setIsPossibleValid] = React.useState(false)
   const [inputFields, setInputFields] = React.useState({
@@ -90,7 +78,7 @@ const NewPasswordForm = (props: IProps) => {
     confirmPassword: string
   }>()
 
-  const onSubmit = async (e: React.FormEvent, resetPassword: Function) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -98,15 +86,24 @@ const NewPasswordForm = (props: IProps) => {
 
     if (invalidFields(values)) return
 
-    resetPassword({
-      variables: {
-        ...values,
-        resetToken: token
-      }
-    })
-  }
+    const variables = {
+      ...values,
+      resetToken: token
+    }
 
-  const onCompletedMutation = (data: any) => {
+    const mutation = mutations.resetPasswordMutation
+    const body = {
+      query: mutation,
+      variables
+    }
+
+    setLoading(true)
+    const { data } = await MainApi.post(endpoint, body)
+    setLoading(false)
+    if (data.errors) {
+      setError(data.errors[0])
+      return
+    }
     setRequestSent(true)
   }
 
@@ -132,64 +129,54 @@ const NewPasswordForm = (props: IProps) => {
     )
   }
 
+  if (requestSent) {
+    return (
+      <Message title="Password has been updated" success>
+        <p>You may login with your new password</p>
+        {backButtonText && (
+          <BackButton href={href} target={target}>
+            {backButtonText}
+          </BackButton>
+        )}
+      </Message>
+    )
+  }
+
   return (
-    <Mutation mutation={RESET_PASSWORD} onCompleted={onCompletedMutation}>
-      {(resetPassword: any, { data, error, loading }: any) => {
-        if (requestSent) {
-          return (
-            <Message title="Password has been updated" success>
-              <p>You may login with your new password</p>
-              {backButtonText && (
-                <BackButton href={href} target={target}>
-                  {backButtonText}
-                </BackButton>
-              )}
-            </Message>
-          )
-        }
+    <Container>
+      <Form onSubmit={e => onSubmit(e)}>
+        <h2>Create new password</h2>
+        <p>Write a new password to your account</p>
+        <FormItem
+          label="New password"
+          name="password"
+          type="password"
+          placeholder="New password"
+          getFieldDecorator={getFieldDecorator}
+          setFields={setFields}
+          onChange={onChangeField}
+        />
+        <FormItem
+          label="Confirm new password"
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm new password"
+          getFieldDecorator={getFieldDecorator}
+          setFields={setFields}
+          onChange={onChangeField}
+        />
 
-        return (
-          <Container>
-            <Form onSubmit={e => onSubmit(e, resetPassword)}>
-              <h2>Create new password</h2>
-              <p>Write a new password to your account</p>
-              <FormItem
-                label="New password"
-                name="password"
-                type="password"
-                placeholder="New password"
-                getFieldDecorator={getFieldDecorator}
-                setFields={setFields}
-                onChange={onChangeField}
-              />
-              <FormItem
-                label="Confirm new password"
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirm new password"
-                getFieldDecorator={getFieldDecorator}
-                setFields={setFields}
-                onChange={onChangeField}
-              />
+        <Button type="submit" loading={loading} disabled={!isPossibleValid}>
+          Reset password
+        </Button>
 
-              <Button
-                type="submit"
-                loading={loading}
-                disabled={!isPossibleValid}
-              >
-                Reset password
-              </Button>
-
-              {error && (
-                <ErrorWrapper>
-                  <p>{error.message}</p>
-                </ErrorWrapper>
-              )}
-            </Form>
-          </Container>
-        )
-      }}
-    </Mutation>
+        {error && (
+          <ErrorWrapper>
+            <p>{error.message}</p>
+          </ErrorWrapper>
+        )}
+      </Form>
+    </Container>
   )
 }
 

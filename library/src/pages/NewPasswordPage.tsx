@@ -1,6 +1,4 @@
 import * as React from 'react'
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
 import PageWrapper from '../components/PageWrapper'
 import NewPasswordForm from '../components/forms/NewPasswordForm'
 import GlobalStyle from '../components/GlobalStyle'
@@ -14,17 +12,16 @@ interface IProps {
 
 const NewPasswordPage = (props: IProps) => {
   const { token, endpoint } = props
-  const client = new ApolloClient({ uri: endpoint })
   return (
-    <ApolloProvider client={client}>
+    <>
       <GlobalStyle />
 
       <ThemeProvider theme={theme}>
         <PageWrapper>
-          <NewPasswordForm token={token} />
+          <NewPasswordForm token={token} endpoint={endpoint} />
         </PageWrapper>
       </ThemeProvider>
-    </ApolloProvider>
+    </>
   )
 }
 

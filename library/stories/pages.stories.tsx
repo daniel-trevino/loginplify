@@ -12,13 +12,6 @@ stories.addDecorator(withKnobs)
 
 stories.add('Verify success', () => (
   <VerifyPage
-    trigggerVerify={false}
-    endpoint="https://loginplify.danieltrevino.se/graphql"
-    token="test"
-  />
-))
-stories.add('Verify with request', () => (
-  <VerifyPage
     endpoint="https://loginplify.danieltrevino.se/graphql"
     token="test"
   />

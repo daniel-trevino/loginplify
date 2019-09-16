@@ -14,14 +14,38 @@ const signUpMutation = `
   }
 `
 
-const resetPasswordMutation = `
+const requestResetPasswordMutation = `
   mutation resetPasswordMutation($email: String!) {
     requestReset(email: $email)
+  }
+`
+
+const resetPasswordMutation = `
+  mutation resetPasswordMutation(
+    $resetToken: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    resetPassword(
+      resetToken: $resetToken
+      password: $password
+      confirmPassword: $confirmPassword
+    ) {
+      token
+    }
+  }
+`
+
+const verifyUserMutation = `
+  mutation verifyUserMutation($token: String!) {
+    verify(token: $token)
   }
 `
 
 export default {
   loginMutation,
   signUpMutation,
-  resetPasswordMutation
+  requestResetPasswordMutation,
+  resetPasswordMutation,
+  verifyUserMutation
 }
