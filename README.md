@@ -15,8 +15,9 @@ The goal of this project is to provide a modern and easy to integrate login serv
 - [x] Account verification page
 - [x] Password reset page
 - [x] Working Backend
-- [x] Setup Apollo Client
 - [x] Update to Next js 9
+- [x] Change the cookie name to `loginplify-token`
+- [x] Remove Apollo Client
 
 **Backend**
 
@@ -50,7 +51,6 @@ The goal of this project is to provide a modern and easy to integrate login serv
 - [x] Change the cookie name to `loginplify-token`
 - [x] Support SSR
 - [ ] Better way to initialize the endpoint just once in the application
-- [ ] Migrate from Apollo Client to use something lighter
 
 ## Folder structure and development
 
@@ -67,22 +67,23 @@ The GraphQL playground will be available on `http://localhost:3000`
 ## 1) Deploy the login service to now.sh
 
 1. Clone this repository
-2. Create a file on the root folder called `deploy-settings.json` copy this JSON object into it with your config settings
+2. Make sure you are logged in to _Now.sh_ on your cli. Run `now whoami` and you should get a response of your username. If you are not logged in, then run `now login` and follow the steps.
+3. Add the following environmental variables on now:
 
-```js
-{
-  "mongodb": "mongodb+srv://prod:prod@prod.mongodb.net/",
-  "emailHost": "pop.gmail.com",
-  "emailUser": "mygmail@gmail.com",
-  "emailPassword": "gmailPassword",
-  "emailSender": "no-reply@myemail.com",
-  "appSecret": "verySecretThing"
-}
+```
+now secret add loginplify-mongodb mongodb+srv://test:test@test.mongodb.net/
+now secret add loginplify-app-secret theSecretString
+now secret add loginplify-email-host pop.gmail.com
+now secret add loginplify-email-user mygmail@gmail.com
+now secret add loginplify-email-password gmailPassword
+now secret add loginplify-email-sender no-reply@gmail.com
 ```
 
-3. Make sure you are logged in to _Now.sh_ on your cli. Run `now whoami` and you should get a response of your username. If you are not logged in, then run `now login` and follow the steps.
+4. Deploy to now by running:
 
-4. Run `npm run deployservice`
+```
+npm run now:deploy
+```
 
 5. Add an alias to your deployment in now with the following syntax: `loginplify.[mydomain.com]`
 
