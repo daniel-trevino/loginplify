@@ -90,9 +90,8 @@ now secret add loginplify-email-sender no-reply@gmail.com
 
 4. Deploy to now by running:
 
-```
-npm run now:deploy
-```
+With all variables: `npm run now:deploy`
+With optional variables: `npm run now:deploy:optional`
 
 5. Add an alias to your deployment in now with the following syntax: `loginplify.[mydomain.com]`
 
