@@ -92,7 +92,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run deploy!
-      - run: now --token=$NOW_TOKEN -e MONGO_DATABASE_URL=@login-service-mongodb -e APP_SECRET=@app-secret -e EMAIL_HOST=@login-service-email-host -e EMAIL_USER=@login-service-email-user -e EMAIL_PASSWORD=@login-service-email-password -e EMAIL_SENDER=@login-service-email-sender --target production
+      - run: now --token=$NOW_TOKEN -e MONGO_DATABASE_URL=@loginplify-mongodb -e APP_SECRET=@loginplify-app-secret -e EMAIL_HOST=@loginplify-email-host -e EMAIL_USER=@loginplify-email-user -e EMAIL_PASSWORD=@loginplify-email-password -e EMAIL_SENDER=@loginplify-email-sender --target production
 
 workflows:
   version: 2
