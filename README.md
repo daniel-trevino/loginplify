@@ -51,6 +51,8 @@ The goal of this project is to provide a modern and easy to integrate login serv
 - [x] Change the cookie name to `loginplify-token`
 - [x] Support SSR
 - [ ] Better way to initialize the endpoint just once in the application
+- [ ] Support to modify all strings on the application
+- [ ] Support for localization
 
 ## Folder structure and development
 
@@ -73,6 +75,13 @@ The GraphQL playground will be available on `http://localhost:3000`
 ```
 now secret add loginplify-mongodb mongodb+srv://test:test@test.mongodb.net/
 now secret add loginplify-app-secret theSecretString
+```
+
+### Optional variables
+
+If you want to enable sending emails for verify accounts or reset password, please include these secret variables. To setup using Gmail, please refer to [this guide](#Gmail)
+
+```
 now secret add loginplify-email-host pop.gmail.com
 now secret add loginplify-email-user mygmail@gmail.com
 now secret add loginplify-email-password gmailPassword
@@ -88,6 +97,16 @@ npm run now:deploy
 5. Add an alias to your deployment in now with the following syntax: `loginplify.[mydomain.com]`
 
 6. Access your graphql endpoint as: `https://loginplify.[mydomain.com]/graphql`
+
+## Using mongo atlas as the database
+
+In order to use Mongo atlas cluster, make sure you whitelist all upcoming IP Addresses. Please follow [this guide](https://docs.atlas.mongodb.com/security-whitelist/). This needs to be done to accept connections from our loginplify serverless service.
+
+## Gmail
+
+### Send emails from loginplify service to verify account and reset password
+
+Loginplify uses nodemailer to send emails. If you want to setup gmail follow [this guide](https://nodemailer.com/usage/using-gmail/)
 
 ## Implement in a React application
 
