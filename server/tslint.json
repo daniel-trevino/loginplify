@@ -4,7 +4,9 @@
   "jsRules": {},
   "rules": {
     "ordered-imports": false,
-    "variable-name": [false]
+    "variable-name": [false],
+    "curly": false,
+    "no-var-requires": false
   },
   "rulesDirectory": [],
   "linterOptions": {

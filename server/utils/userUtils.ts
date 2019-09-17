@@ -37,12 +37,12 @@ export async function getUserFromId(ctx: any, id: string) {
 export function getUserTokenData(user: IUser): IUserTokenData {
   const permissions = user.permissions.map(permission => permission.enum)
   return {
-    id: user._id,
-    permissions,
     'https://hasura.io/jwt/claims': {
       'x-hasura-allowed-roles': permissions,
       'x-hasura-default-role': DEFAULT_PERMISSION,
       'x-hasura-user-id': user._id
-    }
+    },
+    id: user._id,
+    permissions
   }
 }

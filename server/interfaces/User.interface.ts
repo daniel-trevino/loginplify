@@ -2,7 +2,7 @@ import { IPermission, Permission } from './Permission.interface'
 
 export interface IUser {
   _id: string
-  permissions: Array<IPermission>
+  permissions: IPermission[]
   verified: boolean
   email: string
   password: string
@@ -14,9 +14,9 @@ export interface IUser {
 
 export interface IUserTokenData {
   id: string
-  permissions: Array<Permission>
+  permissions: Permission[]
   'https://hasura.io/jwt/claims': {
-    'x-hasura-allowed-roles': Array<Permission>
+    'x-hasura-allowed-roles': Permission[]
     'x-hasura-default-role': string
     'x-hasura-user-id': string
     'x-hasura-org-id'?: string
