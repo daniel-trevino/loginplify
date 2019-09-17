@@ -13,13 +13,10 @@ export default gql`
     _id: ID!
     name: String
     email: String!
-    password: String!
     createdAt: Date!
     verified: Boolean
     resetToken: String
-    resetTokenExpiry: Float
     verifyToken: String
-    verifyTokenExpiry: Float
     permissions: [Permission]
   }
   type Query {
