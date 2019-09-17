@@ -72,6 +72,10 @@ The GraphQL playground will be available on `http://localhost:3000`
 2. Make sure you are logged in to _Now.sh_ on your cli. Run `now whoami` and you should get a response of your username. If you are not logged in, then run `now login` and follow the steps.
 3. Add the following environmental variables on now:
 
+### Mandatory variables
+
+If you want to setup [Mongo Atlas](https://cloud.mongodb.com/) please read [this section](#MongoAtlas) for more information
+
 ```
 now secret add loginplify-mongodb mongodb+srv://test:test@test.mongodb.net/
 now secret add loginplify-app-secret theSecretString
@@ -97,9 +101,9 @@ With optional variables: `npm run now:deploy:optional`
 
 6. Access your graphql endpoint as: `https://loginplify.[mydomain.com]/graphql`
 
-## Using mongo atlas as the database
+## MongoAtlas
 
-In order to use Mongo atlas cluster, make sure you whitelist all upcoming IP Addresses. Please follow [this guide](https://docs.atlas.mongodb.com/security-whitelist/). This needs to be done to accept connections from our loginplify serverless service.
+In order to use Mongo atlas cluster, make sure you whitelist all upcoming IP Addresses by adding `0.0.0.0/0`. Please follow [this guide](https://docs.atlas.mongodb.com/security-whitelist/). This needs to be done to accept connections from our loginplify serverless service.
 
 ## Gmail
 
