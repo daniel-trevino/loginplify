@@ -12,8 +12,12 @@
     "deploy": "npm run clean && npm run build && now",
     "clean": "rm -rfv dist",
     "fmt": "prettier --parser typescript --write \"src/**/*.ts\"",
-    "lint": "tslint -p . -t stylish",
-    "test": "npm run lint"
+    "lint": "tslint -p . -t stylish"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   },
   "keywords": [],
   "author": "",
