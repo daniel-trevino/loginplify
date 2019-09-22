@@ -2,10 +2,10 @@ import * as React from 'react'
 import LoginForm from '../components/forms/LoginForm'
 import ResetPasswordForm from '../components/forms/ResetPasswordForm'
 import { ThemeProvider } from 'styled-components'
-import GlobalStyle from '../components/GlobalStyle'
 import { useLoginServiceContext } from '../context/UserContext'
 import { useSettingsContext } from '../context/SettingsContext'
 import PageWrapper from '../components/PageWrapper'
+import ContainerStyle from '../components/styles/ContainerStyle'
 
 const LoginView = () => {
   const { state } = useLoginServiceContext()
@@ -24,13 +24,11 @@ const LoginView = () => {
   }
 
   return (
-    <>
-      <GlobalStyle />
-
+    <ContainerStyle>
       <ThemeProvider theme={settingsContext.state.theme}>
         <PageWrapper>{renderView()}</PageWrapper>
       </ThemeProvider>
-    </>
+    </ContainerStyle>
   )
 }
 

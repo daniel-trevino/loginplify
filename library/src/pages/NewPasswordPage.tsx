@@ -1,9 +1,9 @@
 import * as React from 'react'
 import PageWrapper from '../components/PageWrapper'
 import NewPasswordForm from '../components/forms/NewPasswordForm'
-import GlobalStyle from '../components/GlobalStyle'
 import { ThemeProvider } from 'styled-components'
 import theme from '../utils/theme'
+import ContainerStyle from '../components/styles/ContainerStyle'
 
 interface IProps {
   token: string
@@ -13,15 +13,13 @@ interface IProps {
 const NewPasswordPage = (props: IProps) => {
   const { token, endpoint } = props
   return (
-    <>
-      <GlobalStyle />
-
+    <ContainerStyle>
       <ThemeProvider theme={theme}>
         <PageWrapper>
           <NewPasswordForm token={token} endpoint={endpoint} />
         </PageWrapper>
       </ThemeProvider>
-    </>
+    </ContainerStyle>
   )
 }
 
