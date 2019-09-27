@@ -1,4 +1,5 @@
 import cookie from 'cookie'
+import CookieJs from 'js-cookie'
 
 export const createTokenCookie = (token: string) => {
   document.cookie = cookie.serialize('loginplify-token', token, {
@@ -8,5 +9,5 @@ export const createTokenCookie = (token: string) => {
 }
 
 export const removeCookie = (cookieName: string) => {
-  document.cookie = `${cookieName}=; Max-Age=0`
+  CookieJs.remove(cookieName)
 }
