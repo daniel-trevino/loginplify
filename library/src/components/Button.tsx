@@ -9,6 +9,7 @@ interface IProps {
   loading?: boolean
   children: React.ReactNode
   type: 'button' | 'reset' | 'submit'
+  onClick?: (event: any) => void
 }
 
 const ButtonComponent = styled.button`
@@ -74,7 +75,14 @@ const BallsWrapper = styled.div`
 `
 
 const Button = (props: IProps) => {
-  const { loading = false, type, children, className, disabled = false } = props
+  const {
+    loading = false,
+    type,
+    children,
+    className,
+    disabled = false,
+    onClick
+  } = props
 
   if (loading) {
     return (
@@ -85,7 +93,12 @@ const Button = (props: IProps) => {
   }
 
   return (
-    <ButtonComponent type={type} className={className} disabled={disabled}>
+    <ButtonComponent
+      type={type}
+      className={className}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {children}
     </ButtonComponent>
   )

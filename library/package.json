@@ -1,6 +1,6 @@
 {
   "name": "loginplify",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "React components to help you integrate a login flow into your application.",
   "main": "dist/index.js",
   "scripts": {
