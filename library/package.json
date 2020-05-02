@@ -1,6 +1,6 @@
 {
   "name": "loginplify",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "React components to help you integrate a login flow into your application.",
   "main": "dist/index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "concurrently": "^4.1.1",
-    "cookie": "^0.4.0",
+    "cookie": "^0.4.1",
     "node-fetch": "^2.6.0",
     "styled-components": "^4.3.2",
     "tslint": "^5.18.0",
